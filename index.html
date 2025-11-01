@@ -1,278 +1,89 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Portal de verificación de pólizas - Día Seguro SURA Platino Plus</title>
-  <style>
-    :root{
-      --azul-sura: #0057B8;
-      --naranja: #F37021;
-      --platino: #C0C0C0;
-      --gris-texto: #333333;
-      --fondo: #FFFFFF;
-      --radio: 12px;
-      --sombra: 0 6px 18px rgba(0,0,0,0.08);
-      font-family: "Roboto", "Open Sans", Arial, sans-serif;
-    html,body{
-  html,body{
-  margin:0;
-  padding:0;
-  color:var(--gris-texto);
-  -webkit-font-smoothing:antialiased;
-  background: 
-    linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)),
-    url('logo-sura.png') no-repeat center center fixed;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verificación de Pólizas | Día Seguro SURA Platino</title>
+<style>
+:root {
+  --azul: #005BAC;
+  --platino: #BCC6CC;
+  --naranja: #FF7F00;
+  --fondo: #f7f8fa;
+  --gris-texto: #333;
+  --sombra: rgba(0, 0, 0, 0.2);
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  color: var(--gris-texto);
+  -webkit-font-smoothing: antialiased;
+  background: var(--fondo) url('logo.png') no-repeat center center fixed;
   background-size: contain;
-  } 
-  padding:0;
-  color:var(--gris-texto);
-  -webkit-font-smoothing:antialiased;
-  background: 
-    linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)),
-    url('logo-sura.png') no-repeat center center fixed;
-  background-size: contain;
-    }
-  margin:0;
-  padding:0;
-  color:var(--gris-texto);
-  -webkit-font-smoothing:antialiased;
-  background: 
-    linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)),
-    url('logo-sura.png') no-repeat center center fixed;
-  background-size: contain;
-    }
-    .container{max-width:980px;margin:28px auto;padding:24px;}
-    header{display:flex;align-items:center;gap:18px;padding:18px;border-radius:14px;background:linear-gradient(180deg,#ffffff,#fbfdff);box-shadow:var(--sombra)}
-    .logo-placeholder{width:84px;height:84px;border-radius:10px;background:linear-gradient(135deg,var(--platino),#e6e6e6);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--azul-sura);box-shadow:inset 0 -3px 8px rgba(0,0,0,0.03)}
-    .title{flex:1}
-    .title h1{margin:0;font-size:20px;color:var(--azul-sura);letter-spacing:0.4px}
-    .title p{margin:4px 0 0 0;color:var(--naranja);font-weight:600}
-    .cta-qr{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
-    .badge{background:linear-gradient(90deg,var(--platino),#f0f0f0);padding:6px 10px;border-radius:999px;font-weight:700;color:var(--gris-texto);font-size:13px}
-    /* card */
-    .card{margin-top:18px;background:#fff;border-radius:12px;padding:18px;box-shadow:var(--sombra)}
-    .featured{display:flex;gap:18px;align-items:center}
-    .featured .left{flex:1}
-    .featured .right{text-align:right;min-width:180px}
-    .policy-title{font-size:16px;margin:0;color:var(--azul-sura);font-weight:700}
-    .policy-sub{margin:6px 0 0 0;color:#666;font-size:14px}
-    .policy-meta{margin-top:12px;background:#F5F7FB;padding:12px;border-radius:10px;display:flex;flex-direction:column;gap:6px}
-    .meta-row{display:flex;justify-content:space-between;gap:12px;font-size:14px}
-    .status{font-weight:700;padding:6px 10px;border-radius:999px;background:linear-gradient(90deg,var(--naranja),#ff9a57);color:white;display:inline-block}
-    .small{font-size:13px;color:#666}
-    /* controls */
-    .controls{display:flex;gap:12px;margin-top:16px;align-items:center}
-    input[type="text"], input[type="search"]{padding:10px 12px;border-radius:10px;border:1px solid #e6e6e6;min-width:220px}
-    button{background:var(--azul-sura);color:white;padding:10px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:700}
-    button.secondary{background:var(--naranja);border:0}
-    /* table */
-    table{width:100%;border-collapse:collapse;margin-top:18px}
-    th,td{padding:12px 10px;border-bottom:1px solid #eee;text-align:left}
-    th{background:#fafafa;font-size:13px;color:#555}
-    .muted{color:#777;font-size:13px}
-    .form-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-    .form-row input{flex:1;min-width:170px}
-    .note{font-size:13px;color:#666;margin-top:12px}
-    footer{margin-top:20px;font-size:13px;color:#666;text-align:center}
-    @media(max-width:640px){
-      header{flex-direction:column;align-items:flex-start}
-      .cta-qr{align-items:flex-start}
-      .featured{flex-direction:column;align-items:flex-start}
-      .featured .right{text-align:left;width:100%}
-    }
-  </style>
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-blend-mode: lighten;
+  font-family: "Segoe UI", Roboto, sans-serif;
+}
+.container {
+  max-width: 600px;
+  margin: 60px auto;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 4px 20px var(--sombra);
+  border-radius: 16px;
+  padding: 30px;
+  text-align: center;
+}
+.logo-placeholder {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.logo-placeholder img {
+  width: 100%;
+  max-width: 250px;
+  height: auto;
+  border-radius: 12px;
+}
+h1 {
+  color: var(--azul);
+  font-size: 1.8em;
+}
+h2 {
+  color: var(--naranja);
+}
+p {
+  font-size: 1em;
+  margin: 12px 0;
+}
+.status {
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: bold;
+  background: linear-gradient(90deg, var(--platino), var(--azul));
+  color: white;
+  margin-top: 15px;
+}
+.footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.9em;
+  color: #555;
+}
+</style>
 </head>
 <body>
   <div class="container">
-    <header>
-      <div class="logo-placeholder" aria-hidden="true">
-        LOGO
-      </div>
-      <div class="title">
-        <h1>Portal de verificación de pólizas multiplataforma</h1>
-        <p>Compruebe su póliza aquí — Día Seguro SURA Platino Plus</p>
-      </div>
-      <div class="cta-qr">
-        <div class="badge">PÁGINA DE VERIFICACIÓN</div>
-        <div class="small">Compartir / Imprimir</div>
-      </div>
-    </header>
-
-    <!-- Póliza destacada -->
-    <div class="card">
-      <div class="featured">
-        <div class="left">
-          <div class="policy-title">Póliza destacada</div>
-          <div class="policy-sub">Eduardo Antonio Cordero Vargas — Póliza #19030</div>
-
-          <div class="policy-meta">
-            <div class="meta-row"><div><strong>Plan:</strong> Día Seguro SURA Platino Plus</div><div class="small"><strong>Fecha:</strong> <!-- JS añade fecha --> <span id="fecha-emitida"></span></div></div>
-            <div class="meta-row"><div><strong>Estatus:</strong> <span class="status" id="estatus-destacado">En proceso de pago para activar</span></div><div class="small"><strong>Contacto:</strong> contacto@diasegurosura.com</div></div>
-          </div>
-        </div>
-
-        <div class="right">
-          <div style="font-size:12px;color:#666">Código público</div>
-          <div style="font-weight:700;font-size:18px;margin-top:6px">19030</div>
-          <div style="margin-top:10px">
-            <button onclick="window.print()" style="background:#2b6fb8">Imprimir</button>
-          </div>
-        </div>
-      </div>
+    <div class="logo-placeholder" aria-hidden="true">
+      <img src="logo.png" alt="Logo Día Seguro SURA">
     </div>
-
-    <!-- Buscador y formulario -->
-    <div class="card">
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
-        <div style="flex:1;min-width:220px">
-          <input type="search" id="search" placeholder="Buscar por nombre o número de póliza..." oninput="filtrar()" />
-        </div>
-        <div style="display:flex;gap:8px;align-items:center">
-          <button class="secondary" onclick="document.getElementById('add-form').scrollIntoView({behavior:'smooth'})">Agregar nueva póliza</button>
-          <button onclick="exportCSV()">Exportar CSV</button>
-        </div>
-      </div>
-
-      <!-- Tabla -->
-      <table id="policies-table" aria-live="polite">
-        <thead>
-          <tr>
-            <th>NOMBRE</th>
-            <th>N° PÓLIZA</th>
-            <th>PLAN</th>
-            <th>ESTATUS</th>
-            <th>FECHA</th>
-          </tr>
-        </thead>
-        <tbody id="table-body">
-          <!-- fila inicial -->
-          <tr>
-            <td>Eduardo Antonio Cordero Vargas</td>
-            <td>19030</td>
-            <td>Día Seguro SURA Platino Plus</td>
-            <td>En proceso de pago para activar</td>
-            <td id="fecha-default"></td>
-          </tr>
-        </tbody>
-      </table>
-
-      <!-- Formulario agregar -->
-      <div id="add-form" style="margin-top:14px;padding-top:10px;border-top:1px dashed #eee">
-        <div style="font-weight:700;margin-bottom:8px;color:var(--azul-sura)">Agregar / Registrar nueva póliza</div>
-        <div class="form-row">
-          <input id="inp-nombre" placeholder="Nombre completo" />
-          <input id="inp-num" placeholder="Número de póliza" />
-          <input id="inp-plan" placeholder="Plan (ej. Día Seguro SURA Platino Plus)" value="Día Seguro SURA Platino Plus" />
-          <input id="inp-estatus" placeholder="Estatus (ej. Activa / En proceso...)" />
-          <input id="inp-fecha" placeholder="Fecha (YYYY-MM-DD)" />
-          <button onclick="agregarPoliza()">Agregar</button>
-        </div>
-        <div class="note">Nota: los registros que agregues se guardan localmente en este navegador (no se suben a internet). Para guardarlos en la nube, usa la opción "Exportar CSV" y súbelo a Google Sheets o tu sistema.</div>
-      </div>
-    </div>
-
-    <footer>
-      © Día Seguro SURA Platino Plus — Portal de verificación. Si necesitas soporte, escribe a contacto@diasegurosura.com
-    </footer>
+    <h1>Portal de Verificación de Pólizas</h1>
+    <h2>Día Seguro SURA Platino Plus</h2>
+    <p><strong>Nombre:</strong> Eduardo Antonio Cordero Vargas</p>
+    <p><strong>Póliza:</strong> 19030</p>
+    <div class="status">Estatus: En proceso de pago para activar</div>
+    <p>Verifique la autenticidad de su póliza en Google o mediante su asesor autorizado.</p>
+    <div class="footer">© 2025 Día Seguro SURA | Todos los derechos reservados</div>
   </div>
-
-<script>
-  // Inicialización de fechas
-  const today = new Date().toISOString().slice(0,10);
-  document.getElementById('fecha-emitida').textContent = today;
-  document.getElementById('fecha-default').textContent = today;
-
-  // Buscar / filtrar
-  function filtrar() {
-    const q = document.getElementById('search').value.toLowerCase();
-    const rows = document.querySelectorAll('#table-body tr');
-    rows.forEach(r=>{
-      const txt = r.textContent.toLowerCase();
-      r.style.display = txt.includes(q) ? '' : 'none';
-    });
-  }
-
-  // Agregar póliza a la tabla
-  function agregarPoliza(){
-    const nombre = document.getElementById('inp-nombre').value.trim();
-    const num = document.getElementById('inp-num').value.trim();
-    const plan = document.getElementById('inp-plan').value.trim();
-    const estatus = document.getElementById('inp-estatus').value.trim();
-    const fecha = document.getElementById('inp-fecha').value.trim() || new Date().toISOString().slice(0,10);
-
-    if(!nombre || !num) {
-      alert('Por favor, completa al menos Nombre y Número de póliza.');
-      return;
-    }
-
-    const tbody = document.getElementById('table-body');
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${escapeHtml(nombre)}</td><td>${escapeHtml(num)}</td><td>${escapeHtml(plan)}</td><td>${escapeHtml(estatus || 'Pendiente')}</td><td>${escapeHtml(fecha)}</td>`;
-    tbody.prepend(tr); // aparece arriba
-    // Limpia inputs
-    document.getElementById('inp-nombre').value='';
-    document.getElementById('inp-num').value='';
-    document.getElementById('inp-estatus').value='';
-    document.getElementById('inp-fecha').value='';
-    filtrar();
-    // guardar local
-    guardarLocal();
-  }
-
-  // Exportar CSV
-  function exportCSV(){
-    const rows = Array.from(document.querySelectorAll('#policies-table tr')).map(tr=>{
-      return Array.from(tr.querySelectorAll('th,td')).map(td=> `"${(td.textContent||'').replace(/"/g,'""')}"`).join(',');
-    }).join('\n');
-    const blob = new Blob([rows], {type:'text/csv;charset=utf-8;'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'polizas_diaseguro_sura_platino.csv';
-    a.click();
-    URL.revokeObjectURL(url);
-  }
-
-  // Guardado en localStorage (opcional)
-  function guardarLocal(){
-    const data = [];
-    document.querySelectorAll('#table-body tr').forEach(tr=>{
-      const cells = tr.querySelectorAll('td');
-      data.push({
-        nombre: cells[0].textContent,
-        num: cells[1].textContent,
-        plan: cells[2].textContent,
-        estatus: cells[3].textContent,
-        fecha: cells[4].textContent
-      });
-    });
-    localStorage.setItem('polizas_diaseguro', JSON.stringify(data));
-  }
-
-  function cargarLocal(){
-    const raw = localStorage.getItem('polizas_diaseguro');
-    if(!raw) return;
-    try{
-      const arr = JSON.parse(raw);
-      const tbody = document.getElementById('table-body');
-      tbody.innerHTML = ''; // limpia
-      arr.forEach(item=>{
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${escapeHtml(item.nombre)}</td><td>${escapeHtml(item.num)}</td><td>${escapeHtml(item.plan)}</td><td>${escapeHtml(item.estatus)}</td><td>${escapeHtml(item.fecha)}</td>`;
-        tbody.appendChild(tr);
-      });
-    }catch(e){console.warn(e)}
-  }
-
-  // Escapa HTML simple
-  function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-
-  // Cargar al inicio
-  window.addEventListener('load', ()=>{
-    cargarLocal();
-  });
-
-</script>
 </body>
 </html>
