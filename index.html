@@ -1,89 +1,91 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Verificación de Póliza | Día Seguro SURA </title>
-<style>
-:root {
-  --azul: #005BAC;
-  --platino: #BCC6CC;
-  --naranja: #FF7F00;
-  --fondo: #f7f8fa;
-  --gris-texto: #333;
-  --sombra: rgba(0, 0, 0, 0.2);
-}
-html, body {
-  margin: 0;
-  padding: 0;
-  color: var(--gris-texto);
-  -webkit-font-smoothing: antialiased;
-  background: var(--fondo) url('logo.png') no-repeat center center fixed;
-  background-size: contain;
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-blend-mode: lighten;
-  font-family: "Segoe UI", Roboto, sans-serif;
-}
-.container {
-  max-width: 600px;
-  margin: 60px auto;
-  background: rgba(255, 255, 255, 0.92);
-  box-shadow: 0 4px 20px var(--sombra);
-  border-radius: 16px;
-  padding: 30px;
-  text-align: center;
-}
-.logo-placeholder {
-  text-align: center;
-  margin-bottom: 20px;
-}
-.logo-placeholder img {
-  width: 100%;
-  max-width: 250px;
-  height: auto;
-  border-radius: 12px;
-}
-h1 {
-  color: var(--azul);
-  font-size: 1.8em;
-}
-h2 {
-  color: var(--naranja);
-}
-p {
-  font-size: 1em;
-  margin: 12px 0;
-}
-.status {
-  padding: 10px;
-  border-radius: 8px;
-  font-weight: bold;
-  background: linear-gradient(90deg, var(--platino), var(--azul));
-  color: white;
-  margin-top: 15px;
-}
-.footer {
-  text-align: center;
-  margin-top: 20px;
-  font-size: 0.9em;
-  color: #555;
-}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Portal de verificación de pólizas - Día Seguro SURA Platino Plus</title>
+  <style>
+    :root{
+      --azul-sura: #0057B8;
+      --naranja: #F37021;
+      --platino: #C0C0C0;
+      --gris-texto: #333333;
+      --fondo: #FFFFFF;
+      --radio: 12px;
+      --sombra: 0 6px 18px rgba(0,0,0,0.08);
+      font-family: "Roboto", "Open Sans", Arial, sans-serif;
+    }
+    html,body{margin:0;padding:0;background:var(--fondo);color:var(--gris-texto);}
+    .container{max-width:980px;margin:28px auto;padding:24px;}
+    header{display:flex;align-items:center;gap:18px;padding:18px;border-radius:14px;background:linear-gradient(180deg,#ffffff,#fbfdff);box-shadow:var(--sombra)}
+    .logo-placeholder{width:84px;height:84px;border-radius:10px;background:url('logo.png') center/cover no-repeat;}
+    .title{flex:1}
+    .title h1{margin:0;font-size:20px;color:var(--azul-sura);}
+    .title p{margin:4px 0 0 0;color:var(--naranja);font-weight:600}
+    .cta-qr{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+    .badge{background:linear-gradient(90deg,var(--platino),#f0f0f0);padding:6px 10px;border-radius:999px;font-weight:700;color:var(--gris-texto);font-size:13px}
+    .card{margin-top:18px;background:#fff;border-radius:12px;padding:18px;box-shadow:var(--sombra)}
+    table{width:100%;border-collapse:collapse;margin-top:18px}
+    th,td{padding:12px 10px;border-bottom:1px solid #eee;text-align:left}
+    th{background:#fafafa;font-size:13px;color:#555}
+    .status{font-weight:700;padding:6px 10px;border-radius:999px;background:linear-gradient(90deg,var(--naranja),#ff9a57);color:white;display:inline-block}
+    footer{margin-top:20px;font-size:13px;color:#666;text-align:center}
+  </style>
 </head>
 <body>
   <div class="container">
-    <div class="logo-placeholder" aria-hidden="true">
-      <img src="logo.png" alt="Día Seguro SURA">
+    <header>
+      <div class="logo-placeholder" aria-hidden="true"></div>
+      <div class="title">
+        <h1>Portal de verificación de pólizas multiplataforma</h1>
+        <p>Compruebe su póliza aquí — Día Seguro SURA Platino Plus</p>
+      </div>
+      <div class="cta-qr">
+        <div class="badge">PÁGINA DE VERIFICACIÓN</div>
+      </div>
+    </header>
+
+    <div class="card">
+      <table id="policies-table">
+        <thead>
+          <tr>
+            <th>NOMBRE</th>
+            <th>N° PÓLIZA</th>
+            <th>PLAN</th>
+            <th>ESTATUS</th>
+            <th>FECHA</th>
+          </tr>
+        </thead>
+        <tbody id="table-body">
+          <tr>
+            <td>Eduardo Antonio Cordero Vargas</td>
+            <td>19030</td>
+            <td>Día Seguro SURA Platino Plus</td>
+            <td>En proceso de pago para activar</td>
+            <td>2025-11-06</td>
+          </tr>
+          <tr>
+            <td>Oscar Bryan Ruiz Chuc</td>
+            <td>7554</td>
+            <td>Día Seguro SURA Platino Plus</td>
+            <td>Activa</td>
+            <td>2025-11-06</td>
+          </tr>
+          <tr>
+            <td>Jonathan Geovanni Orine Celis</td>
+            <td>7555</td>
+            <td>Día Seguro SURA Platino Plus</td>
+            <td>Activa</td>
+            <td>2025-11-06</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <h1>Portal de Verificación de Pólizas</h1>
-    <h2>Día Seguro SURA Platino Plus</h2>
-    <p><strong>Nombre:</strong> OSCAR BRYAN RUIZ CHUC</p>
-    <p><strong>Póliza:</strong> 7554</p>
-    <div class="status">Estatus de la poliza: En proceso de pago para activar la póliza </div>
-    <p>Verifique la autenticidad de su póliza en Google o mediante su asesor autorizado.</p>
-    <div class="footer">© 2025 Día Seguro SURA | Todos los derechos reservados</div>
+
+    <footer>
+      © Día Seguro SURA Platino Plus — Portal de verificación.  
+      Soporte: contacto@diasegurosura.com
+    </footer>
   </div>
 </body>
 </html>
