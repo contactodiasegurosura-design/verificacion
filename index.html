@@ -1,143 +1,348 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Día Seguro SURA - Portal de verificación</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: #f4f7fb;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: #1a2a45;
-      text-align: center;
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Día Seguro SURA — Portal de Verificación</title>
+<style>
+  :root{
+    --azul:#0057B8;
+    --azul-2:#009EE0;
+    --naranja:#F37021;
+    --gris:#444;
+    --card-bg: #ffffff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family: "Segoe UI", Roboto, Arial, sans-serif;background:#f4f7fb;color:var(--gris)}
+  header{background:linear-gradient(90deg,var(--azul),var(--azul-2));color:#fff;padding:14px;text-align:center;font-weight:700}
+  main{max-width:980px;margin:20px auto;padding:18px}
+  .top-row{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+  .search {flex:1;min-width:220px}
+  .search input{width:100%;padding:10px;border-radius:8px;border:1px solid #e0e6ef;font-size:15px}
+  .btn{background:linear-gradient(90deg,var(--azul),var(--azul-2));color:#fff;padding:10px 14px;border-radius:8px;border:0;cursor:pointer;font-weight:700}
+  .btn.orange{background:var(--naranja)}
+  .card{background:var(--card-bg);padding:16px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,0.06);margin-bottom:18px}
+  table{width:100%;border-collapse:collapse}
+  th,td{padding:10px;border-bottom:1px solid #eee;text-align:left}
+  th{background:#f7f9fb}
+  .estatus-cancelada{color:#b32b2b;font-weight:700}
+  .estatus-proceso{color:#e07a00;font-weight:700}
+  .form-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .form-row input{padding:10px;border-radius:8px;border:1px solid #e6eaf2;flex:1}
+  .small{font-size:13px;color:#666}
+  footer{text-align:center;color:#666;font-size:13px;margin-top:10px;padding-bottom:20px}
 
-    header {
-      background: linear-gradient(90deg, #002b5c, #007bff);
-      padding: 15px;
-      color: white;
-      font-weight: bold;
-      font-size: 1.3em;
-      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-    }
+  /* Admin modal / panel */
+  .admin-panel{position:fixed;right:18px;top:90px;width:360px;max-width:calc(100% - 40px);z-index:999;display:none}
+  .admin-card{background:#fff;padding:14px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.12)}
+  .admin-card h3{margin:0 0 8px 0}
+  .admin-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+  .admin-note{font-size:12px;color:#666;margin-top:8px}
 
-    .logo img {
-      width: 180px;
-      margin-top: 25px;
-    }
+  /* WhatsApp flotante */
+  .wa-float{position:fixed;right:18px;bottom:18px;z-index:9999}
+  .wa-btn{display:flex;align-items:center;gap:10px;background:#25D366;color:#fff;padding:12px 16px;border-radius:50px;text-decoration:none;font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,0.18)}
 
-    h1 {
-      color: #002b5c;
-      margin-top: 10px;
-      font-size: 1.6em;
-    }
-
-    p {
-      color: #555;
-      font-size: 1em;
-    }
-
-    .card {
-      background-color: #fff;
-      width: 90%;
-      max-width: 420px;
-      margin: 30px auto;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    input[type="text"] {
-      width: 80%;
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      text-align: center;
-      font-size: 1em;
-    }
-
-    button {
-      background-color: #ff6600;
-      border: none;
-      color: white;
-      padding: 10px 30px;
-      border-radius: 6px;
-      font-size: 1em;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #ff8533;
-    }
-
-    footer {
-      margin-top: 40px;
-      font-size: 0.9em;
-      color: #777;
-      padding-bottom: 30px;
-    }
-
-    .links a {
-      display: inline-block;
-      margin: 10px;
-      color: #007bff;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .links a:hover {
-      text-decoration: underline;
-    }
-  </style>
+  @media(max-width:720px){
+    .top-row{flex-direction:column;align-items:stretch}
+    .admin-panel{right:12px;left:12px;top:auto;bottom:92px}
+  }
+</style>
 </head>
 <body>
 
-  <header>🔒 Conexión segura verificada</header>
+<header>🔒 Día Seguro SURA — Portal de Verificación y Estatus de Póliza Multiplataforma</header>
 
-  <div class="logo">
-    <img src="https://raw.githubusercontent.com/contactodiasegurosura-design/verificacion/b86f602d58b3e7f44656958b372d71edb83ffce3/logo-sura.png.jpg" alt="Día Seguro SURA Logo">
+<main>
+  <div class="top-row">
+    <div class="search card">
+      <input id="searchInput" placeholder="Buscar por nombre o número de póliza..." />
+    </div>
+
+    <div style="display:flex;gap:8px;align-items:center">
+      <button id="adminBtn" class="btn">Admin</button>
+      <button id="showAll" class="btn">Mostrar todo</button>
+    </div>
   </div>
-
-  <h1>Día Seguro SURA</h1>
-  <p>Portal de verificación y estatus de póliza multiplataforma</p>
 
   <div class="card">
-    <input type="text" id="poliza" placeholder="Ingrese número de póliza...">
-    <br>
-    <button onclick="verificar()">Verificar</button>
-    <p id="resultado" style="margin-top:15px; font-weight:bold;"></p>
+    <strong>Pólizas registradas</strong>
+    <table aria-live="poliza-list">
+      <thead>
+        <tr><th>Nombre</th><th>N° Póliza</th><th>Plan</th><th>Estatus</th><th>Fecha</th><th></th></tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+    <div id="noData" class="small" style="display:none;margin-top:10px">No hay pólizas registradas.</div>
   </div>
 
-  <div class="links">
-    <a href="https://wa.me/525528042994?text=Hola,%20quiero%20consultar%20una%20póliza">📞 Consultar</a>
-    <a href="https://wa.me/525528042994?text=Hola,%20quiero%20una%20cotización">💬 Cotizar</a>
+  <div class="card">
+    <h3>¿Necesitas ayuda o una cotización?</h3>
+    <p class="small">Envía un mensaje por WhatsApp y un asesor te responderá.</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <input id="quote-name" placeholder="Tu nombre" style="padding:10px;border-radius:8px;border:1px solid #e6eaf2;flex:1">
+      <input id="quote-pol" placeholder="N° póliza (opcional)" style="padding:10px;border-radius:8px;border:1px solid #e6eaf2;width:160px">
+      <button id="quoteBtn" class="btn orange">Contactar por WhatsApp</button>
+    </div>
   </div>
 
-  <footer>
-    © 2025 Día Seguro SURA — Todos los derechos reservados.
-  </footer>
+  <footer>© 2025 Día Seguro SURA — Soporte: contacto@diasegurosura.com</footer>
+</main>
 
-  <script>
-    function verificar() {
-      const poliza = document.getElementById("poliza").value.trim();
-      const resultado = document.getElementById("resultado");
+<!-- Admin panel (oculto hasta login) -->
+<div class="admin-panel" id="adminPanel" aria-hidden="true">
+  <div class="admin-card">
+    <h3>Panel Admin</h3>
+    <div id="adminContent">
+      <!-- Login form will appear here -->
+    </div>
+    <div class="admin-note">Nota: el control admin está protegido en este navegador. No es un sistema de autenticación de servidor.</div>
+  </div>
+</div>
 
-      if (poliza === "7554") {
-        resultado.textContent = "Póliza 7554 - Oscar Bryan Ruiz Chuc": 🔴 Cancelada";
-      } else if (poliza === "7555") {
-        resultado.textContent = "Póliza 7555 - Jonathan Geovanni Orine Celis": 🔴 Cancelada";
-      } else if (poliza === "7001" || poliza === "7002" || poliza === "7003") {
-        resultado.textContent = "Póliza " + poliza + ": 🔴 Cancelada";
-      } else if (poliza === "") {
-        resultado.textContent = "Por favor ingresa un número de póliza válido.";
-      } else {
-        resultado.textContent = "Póliza no encontrada. Verifica el número.";
-      }
+<!-- WhatsApp flotante -->
+<div class="wa-float">
+  <a class="wa-btn" id="waBtn" href="#" target="_blank" rel="noopener">
+    💬 Consultar / Cotizar
+  </a>
+</div>
+
+<script>
+/* ========== CONFIG ========== */
+const WHATSAPP = "525528042994"; // tu número (sin +)
+const LOCAL_KEY = "polizas_diaseguro_v2";
+const ADMIN_HASH_KEY = "admin_hash_diaseguro_v2";
+
+/* ========== UTIL: SHA-256 hashing (SubtleCrypto) ========== */
+async function sha256hex(text){
+  const enc = new TextEncoder();
+  const data = enc.encode(text);
+  const hash = await crypto.subtle.digest('SHA-256', data);
+  const arr = Array.from(new Uint8Array(hash));
+  return arr.map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+/* ========== Polizas: cargar / guardar ========== */
+function loadPolizas(){
+  try{
+    const raw = localStorage.getItem(LOCAL_KEY);
+    if(!raw) {
+      // datos iniciales (tus 3 pólizas CANCELADAS)
+      const init = [
+        { nombre:"Eduardo Antonio Cordero Vargas", numero:"19030", plan:"Día Seguro SURA Platino Plus", estatus:"Cancelada", fecha:"2025-11-06" },
+        { nombre:"Oscar Bryan Ruiz Chuc", numero:"7554", plan:"Día Seguro SURA Platino Plus", estatus:"Cancelada", fecha:"2025-11-06" },
+        { nombre:"Jonathan Geovanni Orine Celis", numero:"7555", plan:"Día Seguro SURA Platino Plus", estatus:"Cancelada", fecha:"2025-11-06" }
+      ];
+      localStorage.setItem(LOCAL_KEY, JSON.stringify(init));
+      return init;
     }
-  </script>
+    return JSON.parse(raw);
+  }catch(e){
+    console.warn(e);
+    return [];
+  }
+}
+function savePolizas(arr){ localStorage.setItem(LOCAL_KEY, JSON.stringify(arr)); }
 
+/* ========== RENDER ========== */
+let polizas = loadPolizas();
+const tableBody = document.getElementById('tableBody');
+const noData = document.getElementById('noData');
+
+function render(list){
+  tableBody.innerHTML = "";
+  if(!list || list.length === 0){
+    noData.style.display = "block";
+    return;
+  }
+  noData.style.display = "none";
+  list.forEach((p,idx)=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${escapeHtml(p.nombre)}</td>
+      <td>${escapeHtml(p.numero)}</td>
+      <td>${escapeHtml(p.plan)}</td>
+      <td class="${p.estatus === 'Cancelada' ? 'estatus-cancelada' : 'estatus-proceso'}">${escapeHtml(p.estatus)}</td>
+      <td>${escapeHtml(p.fecha||'')}</td>
+      <td style="text-align:right">
+        <button data-idx="${idx}" class="btn" style="background:#eee;color:#333;padding:6px 8px;border-radius:6px;border:0">Ver</button>
+      </td>
+    `;
+    tableBody.appendChild(tr);
+  });
+}
+
+/* ========== SEARCH ========== */
+const searchInput = document.getElementById('searchInput');
+searchInput.addEventListener('input', ()=> {
+  const q = searchInput.value.trim().toLowerCase();
+  if(!q){ render(polizas); return; }
+  const filtered = polizas.filter(p => p.nombre.toLowerCase().includes(q) || p.numero.includes(q));
+  render(filtered);
+});
+document.getElementById('showAll').addEventListener('click', ()=>{ searchInput.value=''; render(polizas); });
+
+/* ========== VIEW BUTTON (delegation) ========== */
+tableBody.addEventListener('click', (e)=>{
+  const b = e.target.closest('button');
+  if(!b) return;
+  const idx = b.getAttribute('data-idx');
+  const p = polizas[idx];
+  if(!p) return;
+  alert(`Póliza ${p.numero}\nNombre: ${p.nombre}\nPlan: ${p.plan}\nEstatus: ${p.estatus}\nFecha: ${p.fecha||'--'}`);
+});
+
+/* ========== ADMIN: Login / panel UI ========== */
+const adminBtn = document.getElementById('adminBtn');
+const adminPanel = document.getElementById('adminPanel');
+const adminContent = document.getElementById('adminContent');
+
+async function showAdminLogin(){
+  adminPanel.style.display = 'block';
+  adminContent.innerHTML = `
+    <div>
+      <label style="font-weight:700">Acceso Administrador</label>
+      <div style="margin-top:8px">
+        <input id="adm-pass" placeholder="Contraseña admin" style="width:100%;padding:8px;border-radius:6px;border:1px solid #e6eaf2">
+      </div>
+      <div style="margin-top:8px;display:flex;gap:8px">
+        <button id="adm-login" class="btn">Entrar</button>
+        <button id="adm-set" class="btn" style="background:#666">Crear/Reset</button>
+        <button id="adm-close" class="btn" style="background:#ccc;color:#111">Cerrar</button>
+      </div>
+      <div class="admin-note" style="margin-top:8px">Si nunca configuraste contraseña, usa "Crear/Reset" para definir una. (Protección local en este navegador).</div>
+    </div>
+  `;
+  document.getElementById('adm-close').addEventListener('click', ()=> adminPanel.style.display='none');
+  document.getElementById('adm-set').addEventListener('click', async ()=>{
+    const p = prompt('Nueva contraseña admin (guárdala en un lugar seguro):');
+    if(!p) return alert('No se guardó contraseña.');
+    const h = await sha256hex(p);
+    localStorage.setItem(ADMIN_HASH_KEY, h);
+    alert('Contraseña admin creada. Ahora usa Entrar con esa contraseña.');
+  });
+  document.getElementById('adm-login').addEventListener('click', async ()=>{
+    const pass = document.getElementById('adm-pass').value||'';
+    if(!pass) return alert('Escribe la contraseña.');
+    const stored = localStorage.getItem(ADMIN_HASH_KEY);
+    if(!stored) return alert('No hay contraseña configurada. Usa Crear/Reset.');
+    const h = await sha256hex(pass);
+    if(h === stored){
+      showAdminPanel();
+    } else {
+      alert('Contraseña incorrecta.');
+    }
+  });
+}
+
+function showAdminPanel(){
+  adminContent.innerHTML = `
+    <div>
+      <h3>Administrar Pólizas</h3>
+      <div style="font-size:13px;color:#666;margin-bottom:8px">Agregar nueva póliza (se guardará en este navegador)</div>
+      <div class="form-row">
+        <input id="adm-name" placeholder="Nombre completo">
+        <input id="adm-num" placeholder="Número de póliza" style="width:140px">
+        <input id="adm-plan" placeholder="Plan" value="Día Seguro SURA Platino Plus">
+        <input id="adm-fecha" placeholder="Fecha (YYYY-MM-DD)" style="width:140px">
+      </div>
+      <div style="margin-top:8px;display:flex;gap:8px">
+        <button id="adm-add" class="btn">Agregar (En proceso de pago)</button>
+        <button id="adm-clear" class="btn" style="background:#ccc;color:#111">Cerrar</button>
+      </div>
+      <hr style="margin:10px 0">
+      <div style="font-weight:700;margin-bottom:6px">Lista (admin)</div>
+      <div id="adm-list" style="max-height:200px;overflow:auto"></div>
+      <div style="margin-top:8px;display:flex;gap:8px">
+        <button id="adm-logout" class="btn" style="background:#b32b2b">Salir Admin</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('adm-clear').addEventListener('click', ()=> adminPanel.style.display='none');
+  document.getElementById('adm-logout').addEventListener('click', ()=> { adminPanel.style.display='none'; });
+  document.getElementById('adm-add').addEventListener('click', ()=>{
+    const name = document.getElementById('adm-name').value.trim();
+    const num = document.getElementById('adm-num').value.trim();
+    const plan = document.getElementById('adm-plan').value.trim() || 'Día Seguro SURA Platino Plus';
+    const fecha = document.getElementById('adm-fecha').value.trim() || new Date().toISOString().slice(0,10);
+    if(!name || !num) return alert('Completa nombre y número.');
+    // añadir como En proceso de pago
+    polizas.unshift({ nombre:name, numero:num, plan:plan, estatus:'En proceso de pago para activar', fecha:fecha });
+    savePolizas(polizas);
+    render(polizas);
+    updateAdminList();
+    // limpiar inputs
+    document.getElementById('adm-name').value=''; document.getElementById('adm-num').value=''; document.getElementById('adm-fecha').value='';
+    alert('Póliza agregada con estatus "En proceso de pago para activar".');
+  });
+  updateAdminList();
+}
+
+function updateAdminList(){
+  const box = document.getElementById('adm-list');
+  box.innerHTML = '';
+  polizas.forEach((p, i)=>{
+    const div = document.createElement('div');
+    div.style.display='flex'; div.style.justifyContent='space-between'; div.style.alignItems='center'; div.style.padding='6px 0';
+    div.innerHTML = `<div style="font-size:13px">${escapeHtml(p.numero)} — ${escapeHtml(p.nombre)} <span style="color:#666;font-size:12px">(${escapeHtml(p.estatus)})</span></div>
+      <div style="display:flex;gap:6px">
+        <button data-i="${i}" class="btn" style="background:#dddddd;color:#111;padding:6px 8px;border-radius:6px">Eliminar</button>
+        <button data-edit="${i}" class="btn" style="background:#ffc107;color:#111;padding:6px 8px;border-radius:6px">Editar</button>
+      </div>`;
+    box.appendChild(div);
+  });
+  // attach handlers
+  box.querySelectorAll('button[data-i]').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const i = Number(b.getAttribute('data-i'));
+      if(!confirm('Eliminar esta póliza?')) return;
+      polizas.splice(i,1);
+      savePolizas(polizas);
+      render(polizas);
+      updateAdminList();
+    });
+  });
+  box.querySelectorAll('button[data-edit]').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const i = Number(b.getAttribute('data-edit'));
+      const p = polizas[i];
+      const newName = prompt('Editar nombre:', p.nombre);
+      if(newName === null) return;
+      const newNum = prompt('Editar número:', p.numero);
+      if(newNum === null) return;
+      const newPlan = prompt('Editar plan:', p.plan);
+      if(newPlan === null) return;
+      const newStatus = prompt('Editar estatus:', p.estatus);
+      if(newStatus === null) return;
+      const newFecha = prompt('Editar fecha (YYYY-MM-DD):', p.fecha||'');
+      if(newFecha === null) return;
+      polizas[i] = { nombre:newName, numero:newNum, plan:newPlan, estatus:newStatus, fecha:newFecha };
+      savePolizas(polizas);
+      render(polizas);
+      updateAdminList();
+    });
+  });
+}
+
+/* ========== QUOTE / WhatsApp ========== */
+document.getElementById('quoteBtn').addEventListener('click', ()=>{
+  const name = document.getElementById('quote-name').value.trim() || '---';
+  const pol = document.getElementById('quote-pol').value.trim() || '---';
+  const text = `Hola, soy ${name}. Solicito información/cotización para la póliza: ${pol}`;
+  const url = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text)}`;
+  window.open(url, '_blank');
+});
+document.getElementById('waBtn').setAttribute('href', `https://wa.me/${WHATSAPP}?text=${encodeURIComponent('Hola, necesito asistencia con una póliza.')}`);
+
+/* ========== ADMIN: button open ========== */
+adminBtn.addEventListener('click', ()=> showAdminLogin());
+
+/* ========== INIT ========== */
+render(polizas);
+
+/* ========== HELPERS ========== */
+function escapeHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+</script>
 </body>
 </html>
