@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Día Seguro SURA — Portal de Verificación</title>
+
+<style>
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f5f7fa;
+    background-image: url('https://raw.githubusercontent.com/tuusuario/tusitio/main/logo.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 60%;
+    color: #001b44;
+    text-align: center;
+  }
+
+  header {
+    background: linear-gradient(90deg, #001b44, #0072bb);
+    color: white;
+    padding: 15px 10px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  h1 {
+    color: #001b44;
+    margin-top: 25px;
+  }
+
+  .search-box {
+    margin: 30px auto;
+    max-width: 320px;
+  }
+
+  input {
+    width: 80%;
+    padding: 10px;
+    border: 2px solid #0072bb;
+    border-radius: 6px;
+  }
+
+  button {
+    background-color: #f37021;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .result {
+    margin-top: 25px;
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .whatsapp-btn {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background-color: #25D366;
+    color: white;
+    border-radius: 50%;
+    padding: 15px;
+    text-decoration: none;
+    font-size: 24px;
+  }
+</style>
+</head>
+
+<body>
+  <header>🔒 Conexión segura verificada</header>
+
+  <h1>Día Seguro SURA</h1>
+  <h3>Portal de verificación y estatus de póliza multiplataforma</h3>
+
+  <div class="search-box">
+    <input id="polizaInput" type="text" placeholder="Ingrese número de póliza..." />
+    <button onclick="buscarPoliza()">Verificar</button>
+  </div>
+
+  <div class="result" id="resultado"></div>
+
+  <p style="margin-top:40px; font-weight:500;">
+    ¿Deseas cotizar o consultar?  
+    <a href="https://wa.me/525528042994" target="_blank">Contáctanos aquí 📲</a>
+  </p>
+
+  <a href="https://wa.me/525528042994" class="whatsapp-btn">💬</a>
+
+  <script>
+    function buscarPoliza() {
+      const input = document.getElementById('polizaInput').value.trim();
+      const resultado = document.getElementById('resultado');
+      const polizas = {
+        "19030": { nombre: "Eduardo Antonio Cordero Vargas", estado: "Cancelada" },
+        "7554": { nombre: "Oscar Bryan Ruiz Chuc", estado: "Cancelada" },
+        "7555": { nombre: "Jonathan Geovanni Orine Celis", estado: "Cancelada" },
+      };
+
+      if (polizas[input]) {
+        resultado.innerHTML = `
+          <b>Póliza:</b> ${input}<br>
+          <b>Nombre:</b> ${polizas[input].nombre}<br>
+          <b>Estatus:</b> ${polizas[input].estado}`;
+      } else {
+        resultado.innerHTML = "⚠️ Póliza no encontrada o en proceso de pago para activar.";
+      }
+    }
+  </script>
+</body>
+</html>
