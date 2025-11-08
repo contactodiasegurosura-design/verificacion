@@ -1,25 +1,41 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portal oficial de verificación de pólizas Día Seguro SURA</title>
   <style>
     body {
       margin: 0;
+      padding: 0;
+      background-color: #f4f7fb;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f9fafc;
       color: #1a2a45;
       text-align: center;
+      position: relative;
+    }
+
+    /* Marca de agua */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://raw.githubusercontent.com/contactodiasegurosura-design/verificacion/b86f602d58b3e7f44656958b372d71edb83ffce3/logo-sura.png.jpg') center no-repeat;
+      background-size: 300px;
+      opacity: 0.07;
+      z-index: -1;
     }
 
     header {
       background: linear-gradient(90deg, #002b5c, #007bff);
+      padding: 15px;
       color: white;
-      padding: 15px 10px;
-      font-size: 1.3em;
       font-weight: bold;
-      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+      font-size: 1.2em;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
     }
 
     .logo img {
@@ -29,8 +45,8 @@
 
     h1 {
       color: #002b5c;
-      font-size: 1.6em;
       margin-top: 10px;
+      font-size: 1.6em;
     }
 
     p {
@@ -39,7 +55,8 @@
     }
 
     .card {
-      background: white;
+      background-color: #fff;
+      width: 90%;
       max-width: 420px;
       margin: 30px auto;
       padding: 25px;
@@ -48,7 +65,7 @@
     }
 
     input[type="text"] {
-      width: 85%;
+      width: 80%;
       padding: 10px;
       margin: 10px 0;
       border: 1px solid #ccc;
@@ -59,8 +76,8 @@
 
     button {
       background-color: #ff6600;
-      color: white;
       border: none;
+      color: white;
       padding: 10px 30px;
       border-radius: 6px;
       font-size: 1em;
@@ -71,11 +88,19 @@
       background-color: #ff8533;
     }
 
+    footer {
+      margin-top: 40px;
+      background: linear-gradient(90deg, #004aad, #002b73);
+      color: #f5f5f5;
+      text-align: center;
+      padding: 25px 10px;
+    }
+
     .links a {
       display: inline-block;
-      margin: 15px;
-      text-decoration: none;
+      margin: 10px;
       color: #007bff;
+      text-decoration: none;
       font-weight: bold;
     }
 
@@ -83,92 +108,89 @@
       text-decoration: underline;
     }
 
-    .propaganda {
-      background: linear-gradient(90deg, #004080, #0066cc);
-      color: white;
-      padding: 25px;
-      margin-top: 40px;
-      font-size: 1.1em;
-    }
-
-    .propaganda h2 {
-      margin-bottom: 10px;
-    }
-
-    footer {
-      margin-top: 40px;
-      color: #777;
+    .detalles {
+      background-color: #eef3fb;
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 10px;
       font-size: 0.9em;
-      padding-bottom: 30px;
+      color: #333;
     }
   </style>
 </head>
-
 <body>
+
   <header>🔒 Portal oficial de verificación de pólizas Día Seguro SURA</header>
 
   <div class="logo">
-    <img src="https://raw.githubusercontent.com/contactodiasegurosura-design/verificacion/b86f602d58b3e7f44656958b372d71edb83ffce3/logo-sura.png.jpg" alt="Logo Día Seguro SURA">
+    <img src="https://raw.githubusercontent.com/contactodiasegurosura-design/verificacion/b86f602d58b3e7f44656958b372d71edb83ffce3/logo-sura.png.jpg" alt="Día Seguro SURA Logo">
   </div>
 
-  <h1>Verificación y Estatus de Pólizas</h1>
-  <p>Consulta tu póliza de manera rápida y segura</p>
+  <h1>Día Seguro SURA</h1>
+  <p>Verificación y estatus de pólizas multiplataforma</p>
 
   <div class="card">
-    <input type="text" id="busqueda" placeholder="Ingrese número o nombre del titular..." />
-    <br />
-    <button onclick="verificar()">🔍 Buscar</button>
-    <p id="resultado" style="margin-top:15px; font-weight:bold;"></p>
+    <input type="text" id="busqueda" placeholder="Ingrese número o nombre...">
+    <br>
+    <button onclick="verificar()">Buscar</button>
+    <div id="resultado" style="margin-top:15px; font-weight:bold;"></div>
   </div>
 
   <div class="links">
-    <a href="https://wa.me/525528042994?text=Hola,%20tengo%20una%20duda%20sobre%20mi%20póliza">📞 Soporte / Aclaraciones</a>
-    <a href="https://wa.me/525528042994?text=Hola,%20quisiera%20una%20cotización%20o%20contratación">💬 Cotizaciones / Contrataciones</a>
+    <a href="https://wa.me/525528042994?text=Hola,%20quiero%20consultar%20una%20póliza">📞 Soporte / Aclaraciones</a>
+    <a href="https://wa.me/525528042994?text=Hola,%20quiero%20una%20cotización">💬 Cotizaciones / Contrataciones</a>
   </div>
 
-  <div class="propaganda">
-    <h2>Tu tranquilidad es nuestra prioridad</h2>
-    <p>
-      Día Seguro SURA es una plataforma confiable respaldada por procesos digitales seguros y transparentes.
-      Consulta, verifica o cotiza tu póliza desde cualquier dispositivo.
-    </p>
-    <p>
-      🛡️ Seguridad garantizada | 💻 Plataforma en línea 24/7 | 📲 Atención personalizada
-    </p>
+  <div style="margin-top: 15px; color: #0d6efd; font-size: 0.9em; display: flex; align-items: center; justify-content: center; gap: 8px;">
+    <span style="font-size: 1.2em;">🔒</span>
+    <span>Conexión segura HTTPS verificada</span>
   </div>
 
   <footer>
-    © 2025 Día Seguro SURA — Todos los derechos reservados.
+    <h3>Tu tranquilidad es nuestra prioridad</h3>
+    <p style="color: #e0e0e0; font-size: 0.9em; line-height: 1.6;">
+      Día Seguro SURA es una plataforma confiable respaldada por procesos digitales seguros y transparentes.
+      Consulta, verifica o cotiza tu póliza desde cualquier dispositivo.
+    </p>
+    <p style="margin-top: 10px; font-size: 0.9em;">
+      🛡️ Seguridad garantizada &nbsp; | &nbsp; 💻 Plataforma en línea 24/7 &nbsp; | &nbsp; 🎧 Atención personalizada
+    </p>
+    <p style="margin-top: 25px; font-size: 0.8em; color: #cfcfcf;">
+      © 2025 Día Seguro SURA — Todos los derechos reservados.
+    </p>
   </footer>
 
   <script>
     const polizas = [
-      { numero: "7554", nombre: "Oscar Bryan Ruiz Chuc", estatus: "🟠 Desactivada" },
-      { numero: "7555", nombre: "Jonathan Geovanni Orine Celis", estatus: "🟠 Desactivada" },
-      { numero: "7001", nombre: "Póliza ejemplo 1", estatus: "🔴 Cancelada" },
-      { numero: "7002", nombre: "Póliza ejemplo 2", estatus: "🔴 Cancelada" },
-      { numero: "7003", nombre: "Póliza ejemplo 3", estatus: "🔴 Cancelada" }
+      { numero: "7554", nombre: "Oscar Bryan Ruiz Chuc", estatus: "🔴 Cancelada", plan: "Día Seguro SURA Platino Plus", vigencia: "3 meses" },
+      { numero: "7555", nombre: "Jonathan Geovanni Orine Celis", estatus: "🔴 Cancelada", plan: "Día Seguro SURA Platino Plus", vigencia: "3 meses" },
+      { numero: "19030", nombre: "Eduardo Antonio Cordero Vargas", estatus: "🟡 En proceso de pago", plan: "Día Seguro SURA Platino Plus", vigencia: "3 meses" },
     ];
 
     function verificar() {
-      const valor = document.getElementById("busqueda").value.trim().toLowerCase();
+      const busqueda = document.getElementById("busqueda").value.trim().toLowerCase();
       const resultado = document.getElementById("resultado");
 
-      if (valor === "") {
-        resultado.textContent = "Por favor ingresa un número o nombre de póliza.";
+      if (busqueda === "") {
+        resultado.innerHTML = "Por favor ingrese un número o nombre de póliza.";
         return;
       }
 
-      const encontrada = polizas.find(p =>
-        p.numero === valor || p.nombre.toLowerCase().includes(valor)
-      );
+      const encontrada = polizas.find(p => p.numero === busqueda || p.nombre.toLowerCase().includes(busqueda));
 
       if (encontrada) {
-        resultado.textContent = `Póliza ${encontrada.numero} - ${encontrada.nombre}: ${encontrada.estatus}`;
+        resultado.innerHTML = `
+          <div style="color:#002b5c;">Póliza ${encontrada.numero} - ${encontrada.nombre}</div>
+          <div class="detalles">
+            <b>Estatus:</b> ${encontrada.estatus}<br>
+            <b>Plan:</b> ${encontrada.plan}<br>
+            <b>Vigencia:</b> ${encontrada.vigencia}
+          </div>`;
       } else {
-        resultado.textContent = "❌ Póliza no encontrada. Verifica los datos ingresados.";
+        resultado.innerHTML = "Póliza no encontrada. Verifica los datos ingresados.";
       }
     }
   </script>
+
 </body>
 </html>
