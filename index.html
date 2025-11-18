@@ -15,7 +15,6 @@
       position: relative;
     }
 
-    /* Marca de agua */
     body::before {
       content: "";
       position: fixed;
@@ -49,11 +48,6 @@
       font-size: 1.6em;
     }
 
-    p {
-      color: #555;
-      font-size: 1em;
-    }
-
     .card {
       background-color: #fff;
       width: 90%;
@@ -84,30 +78,6 @@
       cursor: pointer;
     }
 
-    button:hover {
-      background-color: #ff8533;
-    }
-
-    footer {
-      margin-top: 40px;
-      background: linear-gradient(90deg, #004aad, #002b73);
-      color: #f5f5f5;
-      text-align: center;
-      padding: 25px 10px;
-    }
-
-    .links a {
-      display: inline-block;
-      margin: 10px;
-      color: #007bff;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .links a:hover {
-      text-decoration: underline;
-    }
-
     .detalles {
       background-color: #eef3fb;
       padding: 10px;
@@ -136,35 +106,14 @@
     <div id="resultado" style="margin-top:15px; font-weight:bold;"></div>
   </div>
 
-  <div class="links">
-    <a href="https://wa.me/525528042994?text=Hola,%20quiero%20consultar%20una%20póliza">📞 Soporte / Aclaraciones</a>
-    <a href="https://wa.me/525528042994?text=Hola,%20quiero%20una%20cotización">💬 Cotizaciones / Contrataciones</a>
-  </div>
-
-  <div style="margin-top: 15px; color: #0d6efd; font-size: 0.9em; display: flex; align-items: center; justify-content: center; gap: 8px;">
-    <span style="font-size: 1.2em;">🔒</span>
-    <span>Conexión segura HTTPS verificada</span>
-  </div>
-
-  <footer>
-    <h3>Tu tranquilidad es nuestra prioridad</h3>
-    <p style="color: #e0e0e0; font-size: 0.9em; line-height: 1.6;">
-      Día Seguro SURA es una plataforma confiable respaldada por procesos digitales seguros y transparentes.
-      Consulta, verifica o cotiza tu póliza desde cualquier dispositivo.
-    </p>
-    <p style="margin-top: 10px; font-size: 0.9em;">
-      🛡️ Seguridad garantizada &nbsp; | &nbsp; 💻 Plataforma en línea 24/7 &nbsp; | &nbsp; 🎧 Atención personalizada
-    </p>
-    <p style="margin-top: 25px; font-size: 0.8em; color: #cfcfcf;">
-      © 2025 Día Seguro SURA — Todos los derechos reservados.
-    </p>
-  </footer>
-
   <script>
     const polizas = [
-      { numero: "7554", nombre: "SALVADOR ", estatus: "🔴 Cancelada", plan: "Día Seguro SURA Platino Plus", vigencia: "3 meses" },
-      { numero: "7555", nombre: "ZAIN ADDIEL PÉREZ ATZIN", estatus: "🟡 En proceso de pago", plan: "Día Seguro SURA Platino Plus", vigencia: "3 meses" },
-      { numero: "19030", nombre: "ISRAEL ZAVALA VAZQUEZ", estatus: "🟡 En proceso de pago", plan: "Día Seguro SURA Platino Plus", vigencia: "3 meses" },
+      { numero: "0623", nombre: "MORENO SALVADOR DOMINGUEZ", estatus: "🟡 ACTIVA", plan: "Día Seguro SURA Platino Plus", vigencia: "3 meses" },
+      { numero: "0622", nombre: "Carlos Enrique Cruz Camarena", estatus: "🟡 EN PROCESO DE PAGO PARA ACTIVACION", plan: "Día Seguro SURA Platino Plus", vigencia: "3 meses" },
+      { numero: "0620", nombre: "ISRAEL ZAVALA VAZQUEZ", estatus: "🟡 EN PROCESO DE PAGO PARA ACTIVACION", plan: "Día Seguro SURA Platino Plus", vigencia: "3 meses" },
+      { numero: "0618", nombre: "Luis Donaldo Carrillo Valenzuela", estatus: "🔴 Cancelada", plan: "Día Seguro SURA Platino", vigencia: "3 meses" },
+      { numero: "0619", nombre: "ZAIN ADDIEL PEREZ ATZIN", estatus: "🟡 EN PROCESO DE PAGO PARA ACTIVACION", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
+      { numero: "0617", nombre: "IAN HAZEL CHAVEZ MORENO", estatus: "🟡 EN PROCESO DE PAGO PARA ACTIVACION", plan: "Día Seguro SURA Plus", vigencia: "3 meses" }
     ];
 
     function verificar() {
@@ -176,7 +125,9 @@
         return;
       }
 
-      const encontrada = polizas.find(p => p.numero === busqueda || p.nombre.toLowerCase().includes(busqueda));
+      const encontrada = polizas.find(
+        p => p.numero === busqueda || p.nombre.toLowerCase().includes(busqueda)
+      );
 
       if (encontrada) {
         resultado.innerHTML = `
