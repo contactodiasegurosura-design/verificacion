@@ -3,197 +3,140 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portal oficial de verificación de pólizas Día Seguro SURA</title>
+  <title>Verificador Oficial MK</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      background-color: #f4f7fb;
+      background-color: #f5f6fa;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: #1a2a45;
+      color: #1a1a1a;
       text-align: center;
-      position: relative;
-    }
-
-    /* Marca de agua */
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('https://raw.githubusercontent.com/contactodiasegurosura-design/verificacion/b86f602d58b3e7f44656958b372d71edb83ffce3/logo-sura.png.jpg') center no-repeat;
-      background-size: 300px;
-      opacity: 0.07;
-      z-index: -1;
     }
 
     header {
-      background: linear-gradient(90deg, #002b5c, #007bff);
-      padding: 15px;
+      background: linear-gradient(90deg, #000000, #5a5a5a);
+      padding: 18px;
       color: white;
       font-weight: bold;
-      font-size: 1.2em;
-      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+      font-size: 1.3em;
+      letter-spacing: 1px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.3);
     }
 
     .logo img {
-      width: 180px;
+      width: 200px;
       margin-top: 25px;
+      filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3));
     }
 
     h1 {
-      color: #002b5c;
       margin-top: 10px;
-      font-size: 1.6em;
-    }
-
-    p {
-      color: #555;
-      font-size: 1em;
+      font-size: 1.7em;
+      color: #000000;
     }
 
     .card {
-      background-color: #fff;
+      background: #ffffff;
       width: 90%;
       max-width: 420px;
       margin: 30px auto;
       padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      border-radius: 14px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.12);
     }
 
     input[type="text"] {
       width: 80%;
-      padding: 10px;
+      padding: 12px;
       margin: 10px 0;
+      border-radius: 8px;
       border: 1px solid #ccc;
-      border-radius: 6px;
       text-align: center;
       font-size: 1em;
     }
 
     button {
-      background-color: #ff6600;
+      background: #000000;
       border: none;
       color: white;
       padding: 10px 30px;
-      border-radius: 6px;
       font-size: 1em;
       cursor: pointer;
+      border-radius: 8px;
     }
 
     button:hover {
-      background-color: #ff8533;
-    }
-
-    footer {
-      margin-top: 40px;
-      background: linear-gradient(90deg, #004aad, #002b73);
-      color: #f5f5f5;
-      text-align: center;
-      padding: 25px 10px;
-    }
-
-    .links a {
-      display: inline-block;
-      margin: 10px;
-      color: #007bff;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .links a:hover {
-      text-decoration: underline;
+      background: #333333;
     }
 
     .detalles {
-      background-color: #eef3fb;
+      background: #f0f0f0;
       padding: 10px;
-      border-radius: 8px;
+      border-radius: 6px;
       margin-top: 10px;
+      font-size: 0.95em;
+    }
+
+    footer {
+      margin-top: 45px;
+      padding: 22px;
+      background: #000000;
+      color: #eaeaea;
       font-size: 0.9em;
-      color: #333;
     }
   </style>
 </head>
 <body>
 
-  <header>🔒 Portal oficial de verificación de pólizas Día Seguro SURA</header>
+<header>🔒 Verificador Oficial MK</header>
 
-  <div class="logo">
-    <img src="https://raw.githubusercontent.com/contactodiasegurosura-design/verificacion/b86f602d58b3e7f44656958b372d71edb83ffce3/logo-sura.png.jpg" alt="Día Seguro SURA Logo">
-  </div>
+<div class="logo">
+  <img src="A_logo_in_digital_graphic_design_medium_displays_t.png" alt="Logo Verificador MK">
+</div>
 
-  <h1>Día Seguro SURA</h1>
-  <p>Verificación y estatus de pólizas multiplataforma</p>
+<h1>Verificación de Producto Original MK</h1>
+<p>Consulta la autenticidad de tu producto mediante su código único.</p>
 
-  <div class="card">
-    <input type="text" id="busqueda" placeholder="Ingrese número o nombre...">
-    <br>
-    <button onclick="verificar()">Buscar</button>
-    <div id="resultado" style="margin-top:15px; font-weight:bold;"></div>
-  </div>
+<div class="card">
+  <input type="text" id="codigo" placeholder="Ingresa el código..."><br>
+  <button onclick="verificar()">Verificar</button>
+  <div id="resultado" style="margin-top:15px; font-weight:bold;"></div>
+</div>
 
-  <div class="links">
-    <a href="https://wa.me/525528042994?text=Hola,%20quiero%20consultar%20una%20póliza">📞 Soporte / Aclaraciones</a>
-    <a href="https://wa.me/525528042994?text=Hola,%20quiero%20una%20cotización">💬 Cotizaciones / Contrataciones</a>
-  </div>
+<footer>
+  Verificador Oficial MK © 2025 — Autenticidad garantizada
+</footer>
 
-  <div style="margin-top: 15px; color: #0d6efd; font-size: 0.9em; display: flex; align-items: center; justify-content: center; gap: 8px;">
-    <span style="font-size: 1.2em;">🔒</span>
-    <span>Conexión segura HTTPS verificada</span>
-  </div>
+<script>
+  const productos = [
+    { codigo: "MK52206", nombre: "Reloj Dama con Cadena", original: true, precio: "476 dólares", mensaje: "Producto Original Verificado" }
+  ];
 
-  <footer>
-    <h3>Tu tranquilidad es nuestra prioridad</h3>
-    <p style="color: #e0e0e0; font-size: 0.9em; line-height: 1.6;">
-      Día Seguro SURA es una plataforma confiable respaldada por procesos digitales seguros y transparentes.
-      Consulta, verifica o cotiza tu póliza desde cualquier dispositivo.
-    </p>
-    <p style="margin-top: 10px; font-size: 0.9em;">
-      🛡️ Seguridad garantizada &nbsp; | &nbsp; 💻 Plataforma en línea 24/7 &nbsp; | &nbsp; 🎧 Atención personalizada
-    </p>
-    <p style="margin-top: 25px; font-size: 0.8em; color: #cfcfcf;">
-      © 2025 Día Seguro SURA — Todos los derechos reservados.
-    </p>
-  </footer>
+  function verificar() {
+    const codigo = document.getElementById("codigo").value.trim().toUpperCase();
+    const resultado = document.getElementById("resultado");
 
-  <script>
-    const polizas = [
-      { numero: "0623", nombre: "MORENO SALVADOR DOMINGUEZ", estatus: "🟡 ACTIVA", plan: "Día Seguro SURA Platino Plus", vigencia: "3 meses" },
-      { numero: "0622", nombre: "Carlos Enrique Cruz Camarena", estatus: "🟡 EN PROCESO DE PAGO PARA ACTIVACION", plan: "Día Seguro SURA Platino Plus", vigencia: "3 meses" },
-      { numero: "0620", nombre: "ISRAEL ZAVALA VAZQUEZ", estatus: "🟡 EN PROCESO DE PAGO PARA ACTIVACION", plan: "Día Seguro SURA Platino Plus", vigencia: "3 meses" },
-      { numero: "0618", nombre: "Luis Donaldo Carrillo Valenzuela", estatus: "🔴 Cancelada", plan: "Día Seguro SURA Platino", vigencia: "3 meses" },
-      { numero: "0619", nombre: "ZAIN ADDIEL PEREZ ATZIN", estatus: "🟡 EN PROCESO DE PAGO PARA ACTIVACION", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0617", nombre: "IAN HAZEL CHAVEZ MORENO", estatus: "🟡 EN PROCESO DE PAGO PARA ACTIVACION", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-    ];
-
-    function verificar() {
-      const busqueda = document.getElementById("busqueda").value.trim().toLowerCase();
-      const resultado = document.getElementById("resultado");
-
-      if (busqueda === "") {
-        resultado.innerHTML = "Por favor ingrese un número o nombre de póliza.";
-        return;
-      }
-
-      const encontrada = polizas.find(p => p.numero === busqueda || p.nombre.toLowerCase().includes(busqueda));
-
-      if (encontrada) {
-        resultado.innerHTML = `
-          <div style="color:#002b5c;">Póliza ${encontrada.numero} - ${encontrada.nombre}</div>
-          <div class="detalles">
-            <b>Estatus:</b> ${encontrada.estatus}<br>
-            <b>Plan:</b> ${encontrada.plan}<br>
-            <b>Vigencia:</b> ${encontrada.vigencia}
-          </div>`;
-      } else {
-        resultado.innerHTML = "Póliza no encontrada. Verifica los datos ingresados.";
-      }
+    if (codigo === "") {
+      resultado.innerHTML = "Por favor ingresa un código válido.";
+      return;
     }
-  </script>
+
+    const encontrado = productos.find(p => p.codigo === codigo);
+
+    if (encontrado) {
+      resultado.innerHTML = `
+        <div style="color:#000000;">Código: <b>${encontrado.codigo}</b></div>
+        <div class="detalles">
+          <b>Producto:</b> ${encontrado.nombre}<br>
+          <b>Estado:</b> ✅ ${encontrado.mensaje}<br>
+          <b>Costo:</b> ${encontrado.precio}
+        </div>`;
+    } else {
+      resultado.innerHTML = "❌ Código no encontrado. El producto podría no ser original.";
+    }
+  }
+</script>
 
 </body>
 </html>
