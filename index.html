@@ -1,120 +1,149 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Día Seguro SURA - Verificación de pólizas</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #eef3f8;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-        }
-        .header {
-            background: #0047ba;
-            color: white;
-            padding: 12px;
-            font-size: 18px;
-            font-weight: bold;
-        }
-        .container {
-            margin: 20px auto;
-            width: 90%;
-            max-width: 420px;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-        }
-        input {
-            width: 85%;
-            padding: 10px;
-            border-radius: 6px;
-            border: 1px solid #bbb;
-            margin-bottom: 12px;
-            font-size: 16px;
-        }
-        button {
-            width: 90%;
-            padding: 12px;
-            background: #ff7b00;
-            border: none;
-            color: white;
-            border-radius: 6px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        .resultado {
-            margin-top: 18px;
-            padding: 15px;
-            background: #f0f6ff;
-            border-radius: 10px;
-            text-align: left;
-            display: none;
-        }
-        .footer {
-            margin-top: 40px;
-            padding: 20px;
-            background: #0047ba;
-            color: white;
-            font-size: 14px;
-        }
-    </style>
-</head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal oficial de verificación de pólizas Día Seguro SURA</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f4f7fb;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center;
+      color: #1a2a45;
+    }
 
+    header {
+      background: linear-gradient(90deg, #002b5c, #007bff);
+      padding: 12px;
+      color: #fff;
+      font-size: 1.1em;
+      font-weight: bold;
+    }
+
+    .logo img {
+      width: 180px;
+      margin-top: 25px;
+    }
+
+    h1 {
+      color: #002b5c;
+      margin-top: 10px;
+      font-size: 1.5em;
+    }
+
+    .card {
+      background: #fff;
+      width: 90%;
+      max-width: 420px;
+      margin: 25px auto;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    input {
+      width: 80%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1em;
+      text-align: center;
+    }
+
+    button {
+      margin-top: 12px;
+      background: #ff6600;
+      border: none;
+      color: white;
+      padding: 10px 30px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #ff7f2a;
+    }
+
+    .detalles {
+      margin-top: 15px;
+      background: #eef3fb;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 0.9em;
+    }
+
+    footer {
+      margin-top: 40px;
+      padding: 25px 10px;
+      background: linear-gradient(90deg, #004aad, #002b73);
+      color: #fff;
+    }
+  </style>
+</head>
 <body>
 
-<div class="header">🔐 Portal oficial de verificación de pólizas Día Seguro SURA</div>
+<header>🔒 Portal oficial de verificación de pólizas Día Seguro SURA</header>
 
-<div class="container">
-    <h2>Día Seguro SURA</h2>
-    <p>Verificación y estatus de pólizas multiplataforma</p>
+<div class="logo">
+  <img src="https://raw.githubusercontent.com/contactodiasegurosura-design/verificacion/b86f602d58b3e7f44656958b372d71edb83ffce3/logo-sura.png.jpg" alt="logo">
+</div>
 
-    <input id="codigo" placeholder="Ingresa el número de póliza">
-    <button onclick="buscarPoliza()">Buscar</button>
+<h1>Día Seguro SURA</h1>
+<p>Verificación y estatus de pólizas multiplataforma</p>
 
-    <div id="resultado" class="resultado"></div>
+<div class="card">
+  <input id="busqueda" placeholder="Ingrese número o nombre...">
+  <button onclick="verificar()">Buscar</button>
+  <div id="resultado" style="margin-top:15px; font-weight: bold;"></div>
 </div>
 
 <script>
-    const polizas = [
-      { numero: "0623", nombre: "MORENO SALVADOR DOMINGUEZ", estatus: "🟡 ACTIVA", plan: "Día Seguro SURA Platino Plus", vigencia: "3 meses" },
-      { numero: "0622", nombre: "Carlos Enrique Cruz Camarena", estatus: "🟡 EN PROCESO DE PAGO PARA ACTIVACION", plan: "Día Seguro SURA Platino Plus", vigencia: "3 meses" },
-      { numero: "0620", nombre: "ISRAEL ZAVALA VAZQUEZ", estatus: "🟡 EN PROCESO DE PAGO PARA ACTIVACION", plan: "Día Seguro SURA Platino Plus", vigencia: "3 meses" },
-      { numero: "0618", nombre: "Luis Donaldo Carrillo Valenzuela", estatus: "🔴 Cancelada", plan: "Día Seguro SURA Platino", vigencia: "3 meses" },
-      { numero: "0619", nombre: "ZAIN ADDIEL PEREZ ATZIN", estatus: "🟡 EN PROCESO DE PAGO PARA ACTIVACION", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0617", nombre: "IAN HAZEL CHAVEZ MORENO", estatus: "🟡 EN PROCESO DE PAGO PARA ACTIVACION", plan: "Día Seguro SURA Plus", vigencia: "3 meses" }
-    ];
+  const polizas = [
+    { numero: "0623", nombre: "MORENO SALVADOR DOMINGUEZ", estatus: "🟡 ACTIVA", plan: "Día Seguro SURA Platino Plus", vigencia: "3 meses" },
+    { numero: "0622", nombre: "Carlos Enrique Cruz Camarena", estatus: "🟡 EN PROCESO DE PAGO PARA ACTIVACION", plan: "Día Seguro SURA Platino Plus", vigencia: "3 meses" },
+    { numero: "0620", nombre: "ISRAEL ZAVALA VAZQUEZ", estatus: "🟡 EN PROCESO DE PAGO PARA ACTIVACION", plan: "Día Seguro SURA Platino Plus", vigencia: "3 meses" },
+    { numero: "0618", nombre: "Luis Donaldo Carrillo Valenzuela", estatus: "🔴 Cancelada", plan: "Día Seguro SURA Platino", vigencia: "3 meses" },
+    { numero: "0619", nombre: "ZAIN ADDIEL PEREZ ATZIN", estatus: "🟡 EN PROCESO DE PAGO PARA ACTIVACION", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
+    { numero: "0617", nombre: "IAN HAZEL CHAVEZ MORENO", estatus: "🟡 EN PROCESO DE PAGO PARA ACTIVACION", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
+  ];
 
-    function buscarPoliza() {
-        const codigo = document.getElementById("codigo").value.trim();
-        const resultadoDiv = document.getElementById("resultado");
+  function verificar() {
+    const busqueda = document.getElementById("busqueda").value.trim().toLowerCase();
+    const r = document.getElementById("resultado");
 
-        const poliza = polizas.find(p => p.numero === codigo);
-
-        if (!poliza) {
-            resultadoDiv.style.display = "block";
-            resultadoDiv.innerHTML = "<strong>❌ Póliza no encontrada.</strong><br>Verifica los datos ingresados.";
-            return;
-        }
-
-        resultadoDiv.style.display = "block";
-        resultadoDiv.innerHTML = `
-            <strong>✓ Póliza encontrada</strong><br><br>
-            <b>Número:</b> ${poliza.numero}<br>
-            <b>Cliente:</b> ${poliza.nombre}<br>
-            <b>Estatus:</b> ${poliza.estatus}<br>
-            <b>Plan:</b> ${poliza.plan}<br>
-            <b>Vigencia:</b> ${poliza.vigencia}<br>
-        `;
+    if (!busqueda) {
+      r.innerHTML = "Por favor ingrese un número o nombre.";
+      return;
     }
+
+    const poliza = polizas.find(p =>
+      p.numero === busqueda || p.nombre.toLowerCase().includes(busqueda)
+    );
+
+    if (poliza) {
+      r.innerHTML = `
+        <div style="color:#002b5c;">Póliza ${poliza.numero} - ${poliza.nombre}</div>
+        <div class="detalles">
+          <b>Estatus:</b> ${poliza.estatus}<br>
+          <b>Plan:</b> ${poliza.plan}<br>
+          <b>Vigencia:</b> ${poliza.vigencia}
+        </div>
+      `;
+    } else {
+      r.innerHTML = "Póliza no encontrada. Verifique los datos ingresados.";
+    }
+  }
 </script>
 
-<div class="footer">
-    © 2025 Día Seguro SURA — Todos los derechos reservados.
-</div>
+<footer>
+  <h3>Tu tranquilidad es nuestra prioridad</h3>
+  <p style="font-size: 0.9em; opacity: .85;">
+    Día Seguro SURA es una plataforma digital segura, transparente y disponible 24/7.
+  </p>
+  <p style="font-size: 0.8em; opacity: .75;">© 2025 Día Seguro SURA — Todos los derechos reservados.</p>
+</footer>
 
 </body>
 </html>
