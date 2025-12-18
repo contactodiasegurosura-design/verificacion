@@ -1,181 +1,145 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portal oficial de verificación de pólizas Día Seguro SURA</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: #f4f7fb;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: #1a2a45;
-      text-align: center;
-      position: relative;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal oficial de verificación de pólizas Día Seguro SURA</title>
 
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('https://raw.githubusercontent.com/contactodiasegurosura-design/verificacion/b86f602d58b3e7f44656958b372d71edb83ffce3/logo-sura.png.jpg') center no-repeat;
-      background-size: 300px;
-      opacity: 0.07;
-      z-index: -1;
-    }
-
-    header {
-      background: linear-gradient(90deg, #002b5c, #007bff);
-      padding: 15px;
-      color: white;
-      font-weight: bold;
-      font-size: 1.2em;
-      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    .logo img {
-      width: 180px;
-      margin-top: 25px;
-    }
-
-    h1 {
-      color: #002b5c;
-      margin-top: 10px;
-      font-size: 1.6em;
-    }
-
-    .card {
-      background-color: #fff;
-      width: 90%;
-      max-width: 420px;
-      margin: 30px auto;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    input[type="text"] {
-      width: 80%;
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      text-align: center;
-      font-size: 1em;
-    }
-
-    button {
-      background-color: #ff6600;
-      border: none;
-      color: white;
-      padding: 10px 30px;
-      border-radius: 6px;
-      font-size: 1em;
-      cursor: pointer;
-    }
-
-    .detalles {
-      background-color: #eef3fb;
-      padding: 10px;
-      border-radius: 8px;
-      margin-top: 10px;
-      font-size: 0.9em;
-      color: #333;
-    }
-  </style>
+<style>
+body{
+  margin:0;
+  font-family:Segoe UI,Tahoma,sans-serif;
+  background:#f4f7fb;
+  text-align:center;
+  color:#1a2a45;
+}
+header{
+  background:linear-gradient(90deg,#002b5c,#007bff);
+  color:#fff;
+  padding:15px;
+  font-weight:bold;
+}
+.logo img{
+  width:180px;
+  margin:25px 0;
+}
+.card{
+  background:#fff;
+  max-width:420px;
+  margin:30px auto;
+  padding:25px;
+  border-radius:12px;
+  box-shadow:0 4px 15px rgba(0,0,0,.1);
+}
+input{
+  width:80%;
+  padding:10px;
+  text-align:center;
+  border-radius:6px;
+  border:1px solid #ccc;
+}
+button{
+  margin-top:10px;
+  padding:10px 30px;
+  background:#ff6600;
+  color:white;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+}
+.detalles{
+  margin-top:10px;
+  background:#eef3fb;
+  padding:10px;
+  border-radius:8px;
+  font-size:.9em;
+}
+</style>
 </head>
+
 <body>
 
-  <header>🔒 Portal oficial de verificación de pólizas Día Seguro SURA</header>
+<header>🔒 Portal oficial de verificación Día Seguro SURA</header>
 
-  <div class="logo">
-    <img src="https://raw.githubusercontent.com/contactodiasegurosura-design/verificacion/b86f602d58b3e7f44656958b372d71edb83ffce3/logo-sura.png.jpg" alt="Día Seguro SURA Logo">
-  </div>
+<div class="logo">
+<img src="https://raw.githubusercontent.com/contactodiasegurosura-design/verificacion/b86f602d58b3e7f44656958b372d71edb83ffce3/logo-sura.png.jpg">
+</div>
 
-  <h1>Día Seguro SURA</h1>
-  <p>Verificación y estatus de pólizas multiplataforma</p>
+<h2>Día Seguro SURA</h2>
+<p>Consulta y verificación de pólizas</p>
 
-  <div class="card">
-    <input type="text" id="busqueda" placeholder="Ingrese número o nombre...">
-    <br>
-    <button onclick="verificar()">Buscar</button>
-    <div id="resultado" style="margin-top:15px; font-weight:bold;"></div>
-  </div>
+<div class="card">
+<input id="busqueda" placeholder="Número o nombre de póliza">
+<br>
+<button onclick="verificar()">Buscar</button>
+<div id="resultado" style="margin-top:15px;font-weight:bold;"></div>
+</div>
 
-  <script>
-    const polizas = [
-      { numero: "0321", nombre: "MORENO SALVADOR DOMINGUEZ", estatus: "🟡 ACTIVA", plan: "Día Seguro SURA Platino Plus", vigencia: "3 meses" },
-      { numero: "0320", nombre: "BRANDON BENJAMIN TREJO MAYA", estatus: "🔴 Cancelada", plan: "Día Seguro SURA Platino Plus", vigencia: "3 meses" },
-      { numero: "0322", nombre: "JAZMIN NOEMI DE LA CRUZ ESQUINCA", estatus: "🔴 Cancelada", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0323", nombre: "ADRIAN PICHARDO JIMENEZ", estatus: "🔴 Cancelada", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0324", nombre: "JESUS ALEJANDRO GAMEZ GOMEZ", estatus: "🔴 Cancelada", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0325", nombre: "ESTHER YESSICA LOPEZ BARAJAS", estatus: "🔴 Cancelada", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0326", nombre: "IAN SANTIAGO GOMEZ PACHECO", estatus: "🔴 Cancelada por incumplimiento de pago", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0327", nombre: "LUIS ENRIQUE ARELLANO CARRERA", estatus: "🔴 Cancelada por incumplimiento de pago", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0328", nombre: "JOSÉ LUIS  CHIMAL QUINTANAR", estatus: "🔴 Cancelada por incumplimiento de pago", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0329", nombre: "MAURICIO DANIEL MARTINEZ CARRANZA", estatus: "🔴 Cancelada por incumplimiento de pago", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0330", nombre: "FRANTZ JUNIOR DAUT HERNANDEZ", estatus: "🔴 Cancelada por incumplimiento de pago", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0331", nombre: "VICTOR MANUEL LOPEZ SANCHEZ", estatus: "🔴 Cancelada por incumplimiento de pago", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0332", nombre: "ALIN MONSERRAT SUASTEGUI MENDOZA", estatus: "🟡 ACTIVA", plan: "Día Seguro SURA Plus", vigencia: "ANUAL" },
-      { numero: "0333", nombre: "CARLOS RICARDO NIEVES PALACIO", estatus: "🔴 Cancelada por incumplimiento de pago", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0335", nombre: "BRANDON MICHELL ALVAREZ HERRERA", estatus: "🔴 Cancelada por incumplimiento de pago", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0336", nombre: "CARLOS ALFREDO HERNÁNDEZ GONZALEZ", estatus: "🟡 EN PROCESO DE VENTA", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0337", nombre: "IVAN ALEJANDRO CORONILLA PATLAN", estatus: "🟡 EN PROCESO DE VENTA", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0338", nombre: "Christian Ivan Hernandez Martinez", estatus: "🟡 EN PROCESO DE VENTA", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0339", nombre: "CARLOS DANIEL LÓPEZ LEYVA", estatus: "🔴 Cancelada por incumplimiento de pago", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0340", nombre: "Jeremmy Jordán Velazquez Sierra", estatus: "🔴 Cancelada por incumplimiento de pago", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0341", nombre: "Mario Ponce Chapa", estatus: "🟡 EN PROCESO DE PAGO PARA ACTIVACIÓN", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0342", nombre: "Mario Ponce Chapa", estatus: "🟡 EN PROCESO DE PAGO PARA ACTIVACIÓN", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0343", nombre: "En proceso de venta", estatus: "🟡 EN PROCESO DE VENTA", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0344", nombre: "En proceso de venta", estatus: "🟡 EN PROCESO DE VENTA", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0345", nombre: "En proceso de venta", estatus: "🟡 EN PROCESO DE VENTA", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0346", nombre: "En proceso de venta", estatus: "🟡 EN PROCESO DE VENTA", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0347", nombre: "En proceso de venta", estatus: "🟡 EN PROCESO DE VENTA", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0348", nombre: "En proceso de venta", estatus: "🟡 EN PROCESO DE VENTA", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0349", nombre: "En proceso de venta", estatus: "🟡 EN PROCESO DE VENTA", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0350", nombre: "En proceso de venta", estatus: "🟡 EN PROCESO DE VENTA", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0351", nombre: "En proceso de venta", estatus: "🟡 EN PROCESO DE VENTA", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0352", nombre: "En proceso de venta", estatus: "🟡 EN PROCESO DE VENTA", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0353", nombre: "En proceso de venta", estatus: "🟡 EN PROCESO DE VENTA", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0354", nombre: "En proceso de venta", estatus: "🟡 EN PROCESO DE VENTA", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0355", nombre: "En proceso de venta", estatus: "🟡 EN PROCESO DE VENTA", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0356", nombre: "En proceso de venta", estatus: "🟡 EN PROCESO DE VENTA", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0357", nombre: "En proceso de venta", estatus: "🟡 EN PROCESO DE VENTA", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0358", nombre: "En proceso de venta", estatus: "🟡 EN PROCESO DE VENTA", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0359", nombre: "En proceso de venta", estatus: "🟡 EN PROCESO DE VENTA", plan: "Día Seguro SURA Plus", vigencia: "3 meses" },
-      { numero: "0334", nombre: "MIGUEL ANGEL CARBAJAL ROSTRO", estatus: "🟡 EN PROCESO DE PAGO PARA ACTIVACION", plan: "Día Seguro SURA Plus", vigencia: "3 meses" }
-    ];
+<script>
+const polizas = [
 
-    function verificar() {
-      const busqueda = document.getElementById("busqueda").value.trim().toLowerCase();
-      const resultado = document.getElementById("resultado");
+/* ===== PÓLIZAS EXISTENTES ===== */
+{numero:"0320",nombre:"BRANDON BENJAMIN TREJO MAYA",estatus:"🔴 Cancelada",plan:"Plus",vigencia:"3 meses"},
+{numero:"0321",nombre:"MORENO SALVADOR DOMINGUEZ",estatus:"🟡 ACTIVA",plan:"Platino Plus",vigencia:"3 meses"},
+{numero:"0322",nombre:"JAZMIN NOEMI DE LA CRUZ ESQUINCA",estatus:"🔴 Cancelada",plan:"Plus",vigencia:"3 meses"},
+{numero:"0323",nombre:"ADRIAN PICHARDO JIMENEZ",estatus:"🔴 Cancelada",plan:"Plus",vigencia:"3 meses"},
+{numero:"0324",nombre:"JESUS ALEJANDRO GAMEZ GOMEZ",estatus:"🔴 Cancelada",plan:"Plus",vigencia:"3 meses"},
+{numero:"0325",nombre:"ESTHER YESSICA LOPEZ BARAJAS",estatus:"🔴 Cancelada",plan:"Plus",vigencia:"3 meses"},
+{numero:"0326",nombre:"IAN SANTIAGO GOMEZ PACHECO",estatus:"🔴 Cancelada por pago",plan:"Plus",vigencia:"3 meses"},
+{numero:"0327",nombre:"LUIS ENRIQUE ARELLANO CARRERA",estatus:"🔴 Cancelada por pago",plan:"Plus",vigencia:"3 meses"},
+{numero:"0328",nombre:"JOSE LUIS CHIMAL QUINTANAR",estatus:"🔴 Cancelada por pago",plan:"Plus",vigencia:"3 meses"},
+{numero:"0329",nombre:"MAURICIO DANIEL MARTINEZ CARRANZA",estatus:"🔴 Cancelada por pago",plan:"Plus",vigencia:"3 meses"},
+{numero:"0330",nombre:"FRANTZ JUNIOR DAUT HERNANDEZ",estatus:"🔴 Cancelada por pago",plan:"Plus",vigencia:"3 meses"},
+{numero:"0331",nombre:"VICTOR MANUEL LOPEZ SANCHEZ",estatus:"🔴 Cancelada por pago",plan:"Plus",vigencia:"3 meses"},
+{numero:"0332",nombre:"ALIN MONSERRAT SUASTEGUI MENDOZA",estatus:"🟡 ACTIVA",plan:"Plus",vigencia:"ANUAL"},
+{numero:"0333",nombre:"CARLOS RICARDO NIEVES PALACIO",estatus:"🔴 Cancelada por pago",plan:"Plus",vigencia:"3 meses"},
+{numero:"0334",nombre:"MIGUEL ANGEL CARBAJAL ROSTRO",estatus:"🟡 EN PROCESO DE PAGO",plan:"Plus",vigencia:"3 meses"},
+{numero:"0335",nombre:"BRANDON MICHELL ALVAREZ HERRERA",estatus:"🔴 Cancelada por pago",plan:"Plus",vigencia:"3 meses"},
+{numero:"0336",nombre:"CARLOS ALFREDO HERNANDEZ GONZALEZ",estatus:"🟡 EN PROCESO DE VENTA",plan:"Plus",vigencia:"3 meses"},
+{numero:"0337",nombre:"IVAN ALEJANDRO CORONILLA PATLAN",estatus:"🟡 EN PROCESO DE VENTA",plan:"Plus",vigencia:"3 meses"},
+{numero:"0338",nombre:"CHRISTIAN IVAN HERNANDEZ MARTINEZ",estatus:"🟡 EN PROCESO DE VENTA",plan:"Plus",vigencia:"3 meses"},
+{numero:"0339",nombre:"CARLOS DANIEL LOPEZ LEYVA",estatus:"🔴 Cancelada por pago",plan:"Plus",vigencia:"3 meses"},
+{numero:"0340",nombre:"JEREMMY JORDAN VELAZQUEZ SIERRA",estatus:"🔴 Cancelada por pago",plan:"Plus",vigencia:"3 meses"},
+{numero:"0341",nombre:"MARIO PONCE CHAPA",estatus:"🟡 EN PROCESO DE PAGO",plan:"Plus",vigencia:"3 meses"},
 
-      if (busqueda === "") {
-        resultado.innerHTML = "Por favor ingrese un número o nombre de póliza.";
-        return;
-      }
+/* ===== PÓLIZAS PARA VENTA (0342 EN ADELANTE) ===== */
+{numero:"0342",nombre:"EN PROCESO DE VENTA",estatus:"🟡 EN PROCESO DE VENTA",plan:"Plus",vigencia:"3 meses"},
+{numero:"0343",nombre:"EN PROCESO DE VENTA",estatus:"🟡 EN PROCESO DE VENTA",plan:"Plus",vigencia:"3 meses"},
+{numero:"0344",nombre:"EN PROCESO DE VENTA",estatus:"🟡 EN PROCESO DE VENTA",plan:"Plus",vigencia:"3 meses"},
+{numero:"0345",nombre:"EN PROCESO DE VENTA",estatus:"🟡 EN PROCESO DE VENTA",plan:"Plus",vigencia:"3 meses"},
+{numero:"0346",nombre:"EN PROCESO DE VENTA",estatus:"🟡 EN PROCESO DE VENTA",plan:"Plus",vigencia:"3 meses"},
+{numero:"0347",nombre:"EN PROCESO DE VENTA",estatus:"🟡 EN PROCESO DE VENTA",plan:"Plus",vigencia:"3 meses"},
+{numero:"0348",nombre:"EN PROCESO DE VENTA",estatus:"🟡 EN PROCESO DE VENTA",plan:"Plus",vigencia:"3 meses"},
+{numero:"0349",nombre:"EN PROCESO DE VENTA",estatus:"🟡 EN PROCESO DE VENTA",plan:"Plus",vigencia:"3 meses"},
+{numero:"0350",nombre:"EN PROCESO DE VENTA",estatus:"🟡 EN PROCESO DE VENTA",plan:"Plus",vigencia:"3 meses"},
+{numero:"0351",nombre:"EN PROCESO DE VENTA",estatus:"🟡 EN PROCESO DE VENTA",plan:"Plus",vigencia:"3 meses"},
+{numero:"0352",nombre:"EN PROCESO DE VENTA",estatus:"🟡 EN PROCESO DE VENTA",plan:"Plus",vigencia:"3 meses"},
+{numero:"0353",nombre:"EN PROCESO DE VENTA",estatus:"🟡 EN PROCESO DE VENTA",plan:"Plus",vigencia:"3 meses"},
+{numero:"0354",nombre:"EN PROCESO DE VENTA",estatus:"🟡 EN PROCESO DE VENTA",plan:"Plus",vigencia:"3 meses"},
+{numero:"0355",nombre:"EN PROCESO DE VENTA",estatus:"🟡 EN PROCESO DE VENTA",plan:"Plus",vigencia:"3 meses"},
+{numero:"0356",nombre:"EN PROCESO DE VENTA",estatus:"🟡 EN PROCESO DE VENTA",plan:"Plus",vigencia:"3 meses"},
+{numero:"0357",nombre:"EN PROCESO DE VENTA",estatus:"🟡 EN PROCESO DE VENTA",plan:"Plus",vigencia:"3 meses"},
+{numero:"0358",nombre:"EN PROCESO DE VENTA",estatus:"🟡 EN PROCESO DE VENTA",plan:"Plus",vigencia:"3 meses"},
+{numero:"0359",nombre:"EN PROCESO DE VENTA",estatus:"🟡 EN PROCESO DE VENTA",plan:"Plus",vigencia:"3 meses"},
+{numero:"0360",nombre:"EN PROCESO DE VENTA",estatus:"🟡 EN PROCESO DE VENTA",plan:"Plus",vigencia:"3 meses"},
+{numero:"0361",nombre:"EN PROCESO DE VENTA",estatus:"🟡 EN PROCESO DE VENTA",plan:"Plus",vigencia:"3 meses"}
 
-      const encontrada = polizas.find(
-        p => p.numero === busqueda || p.nombre.toLowerCase().includes(busqueda)
-      );
+];
 
-      if (encontrada) {
-        resultado.innerHTML = `
-          <div style="color:#002b5c;">Póliza ${encontrada.numero} - ${encontrada.nombre}</div>
-          <div class="detalles">
-            <b>Estatus:</b> ${encontrada.estatus}<br>
-            <b>Plan:</b> ${encontrada.plan}<br>
-            <b>Vigencia:</b> ${encontrada.vigencia}
-          </div>`;
-      } else {
-        resultado.innerHTML = "Póliza no encontrada. Verifica los datos ingresados.";
-      }
-    }
-  </script>
+function verificar(){
+  const b=document.getElementById("busqueda").value.trim().toLowerCase();
+  const r=document.getElementById("resultado");
+  const p=polizas.find(x=>x.numero===b||x.nombre.toLowerCase().includes(b));
+  r.innerHTML=p?
+  `<div>Póliza ${p.numero} - ${p.nombre}</div>
+   <div class="detalles">
+   <b>Estatus:</b> ${p.estatus}<br>
+   <b>Plan:</b> ${p.plan}<br>
+   <b>Vigencia:</b> ${p.vigencia}
+   </div>`:
+  "❌ Póliza no encontrada";
+}
+</script>
 
 </body>
 </html>
