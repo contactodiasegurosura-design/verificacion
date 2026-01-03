@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portal oficial de verificación de pólizas Día Seguro SURA</title>
+<title>Portal de verificación de pólizas | Día Seguro</title>
 
 <style>
 body{
@@ -32,97 +32,138 @@ header{
   box-shadow:0 4px 15px rgba(0,0,0,.1);
 }
 input{
-  width:80%;
-  padding:10px;
+  width:85%;
+  padding:12px;
   text-align:center;
   border-radius:6px;
   border:1px solid #ccc;
+  font-size:16px;
 }
 button{
-  margin-top:10px;
-  padding:10px 30px;
+  margin-top:12px;
+  padding:10px 35px;
   background:#ff6600;
   color:white;
   border:none;
   border-radius:6px;
   cursor:pointer;
+  font-size:15px;
 }
+button:hover{background:#e65c00;}
+
 .detalles{
-  margin-top:10px;
-  background:#eef3fb;
-  padding:10px;
+  margin-top:12px;
+  padding:12px;
   border-radius:8px;
-  font-size:.9em;
+  font-size:.95em;
+}
+.activa{background:#e7f7ec;color:#1d7a3a;}
+.cancelada{background:#fdeaea;color:#a10000;}
+.proceso{background:#fff6e0;color:#9a6a00;}
+
+footer{
+  margin-top:40px;
+  padding:15px;
+  font-size:12px;
+  color:#555;
+}
+.aviso{
+  font-size:12px;
+  color:#666;
+  max-width:500px;
+  margin:20px auto;
 }
 </style>
 </head>
 
 <body>
 
-<header>🔒 Portal oficial de verificación Día Seguro SURA</header>
+<header>🔒 Portal de verificación de pólizas</header>
 
 <div class="logo">
 <img src="https://raw.githubusercontent.com/contactodiasegurosura-design/verificacion/b86f602d58b3e7f44656958b372d71edb83ffce3/logo-sura.png.jpg">
 </div>
 
-<h2>Día Seguro SURA</h2>
-<p>Consulta y verificación de pólizas</p>
+<h2>Día Seguro</h2>
+<p>Consulta informativa de estatus de pólizas</p>
 
 <div class="card">
-<input id="busqueda" placeholder="Número o nombre de póliza">
+<input id="busqueda" placeholder="Número o nombre de póliza" onkeypress="if(event.key==='Enter')verificar()">
 <br>
 <button onclick="verificar()">Buscar</button>
 <div id="resultado" style="margin-top:15px;font-weight:bold;"></div>
 </div>
 
+<div class="aviso">
+⚠️ Este portal es de carácter informativo y de verificación interna.
+</div>
+
+<footer>
+© 2026 Día Seguro · Verificación de pólizas
+</footer>
+
 <script>
 const polizas = [
 
-/* ===== PÓLIZAS EXISTENTES ===== */
-{numero:"0320",nombre:"BRANDON BENJAMIN TREJO MAYA",estatus:"🔴 Cancelada",plan:"Plus",vigencia:"3 meses"},
-{numero:"0321",nombre:"MORENO SALVADOR DOMINGUEZ",estatus:"🟡 ACTIVA",plan:"Platino Plus",vigencia:"3 meses"},
-{numero:"0322",nombre:"JAZMIN NOEMI DE LA CRUZ ESQUINCA",estatus:"🔴 Cancelada",plan:"Plus",vigencia:"3 meses"},
-{numero:"0323",nombre:"ADRIAN PICHARDO JIMENEZ",estatus:"🔴 Cancelada",plan:"Plus",vigencia:"3 meses"},
-{numero:"0324",nombre:"JESUS ALEJANDRO GAMEZ GOMEZ",estatus:"🔴 Cancelada",plan:"Plus",vigencia:"3 meses"},
-{numero:"0325",nombre:"ESTHER YESSICA LOPEZ BARAJAS",estatus:"🔴 Cancelada",plan:"Plus",vigencia:"3 meses"},
-{numero:"0326",nombre:"IAN SANTIAGO GOMEZ PACHECO",estatus:"🔴 Cancelada por pago",plan:"Plus",vigencia:"3 meses"},
-{numero:"0327",nombre:"LUIS ENRIQUE ARELLANO CARRERA",estatus:"🔴 Cancelada por pago",plan:"Plus",vigencia:"3 meses"},
-{numero:"0328",nombre:"JOSE LUIS CHIMAL QUINTANAR",estatus:"🔴 Cancelada por pago",plan:"Plus",vigencia:"3 meses"},
-{numero:"0329",nombre:"MAURICIO DANIEL MARTINEZ CARRANZA",estatus:"🔴 Cancelada por pago",plan:"Plus",vigencia:"3 meses"},
-{numero:"0330",nombre:"FRANTZ JUNIOR DAUT HERNANDEZ",estatus:"🔴 Cancelada por pago",plan:"Plus",vigencia:"3 meses"},
-{numero:"0331",nombre:"VICTOR MANUEL LOPEZ SANCHEZ",estatus:"🔴 Cancelada por pago",plan:"Plus",vigencia:"3 meses"},
+/* ===== PÓLIZAS QUE SE MANTIENEN IGUAL ===== */
 {numero:"0332",nombre:"ALIN MONSERRAT SUASTEGUI MENDOZA",estatus:"🟡 ACTIVA",plan:"Plus",vigencia:"ANUAL"},
-{numero:"0333",nombre:"CARLOS RICARDO NIEVES PALACIO",estatus:"🔴 Cancelada por pago",plan:"Plus",vigencia:"3 meses"},
-{numero:"0334",nombre:"MIGUEL ANGEL CARBAJAL ROSTRO",estatus:"🟡 EN PROCESO DE PAGO",plan:"Plus",vigencia:"3 meses"},
-{numero:"0335",nombre:"BRANDON MICHELL ALVAREZ HERRERA",estatus:"🔴 Cancelada por pago",plan:"Plus",vigencia:"3 meses"},
-{numero:"0336",nombre:"CARLOS ALFREDO HERNANDEZ GONZALEZ",estatus:"🟡 EN PROCESO DE VENTA",plan:"Plus",vigencia:"3 meses"},
-{numero:"0337",nombre:"IVAN ALEJANDRO CORONILLA PATLAN",estatus:"🟡 EN PROCESO DE VENTA",plan:"Plus",vigencia:"3 meses"},
-{numero:"0338",nombre:"CHRISTIAN IVAN HERNANDEZ MARTINEZ",estatus:"🟡 EN PROCESO DE VENTA",plan:"Plus",vigencia:"3 meses"},
-{numero:"0339",nombre:"CARLOS DANIEL LOPEZ LEYVA",estatus:"🔴 Cancelada por pago",plan:"Plus",vigencia:"3 meses"},
-{numero:"0340",nombre:"JEREMMY JORDAN VELAZQUEZ SIERRA",estatus:"🔴 Cancelada por pago",plan:"Plus",vigencia:"3 meses"},
-{numero:"0341",nombre:"MARIO PONCE CHAPA",estatus:"🟡 EN PROCESO DE PAGO",plan:"Plus",vigencia:"3 meses"},
-
-/* ===== PÓLIZAS PARA VENTA (0342 EN ADELANTE) ===== */
-{numero:"0342",nombre:"SAUL ISAAC MAY TEJEDA",estatus:"🟡 EN PROCESO DE PAGO",plan:"Plus",vigencia:"3 meses"},
-{numero:"0343",nombre:"JORGE ARMANDO SANCHEZ HERNANDEZ",estatus:"🟡 EN PROCESO DE PAGO",plan:"Plus",vigencia:"3 meses"},
-{numero:"0344",nombre:"OMAR SEVERIANO BENAVIDES SAAVEDRA",estatus:"🟡 EN PROCESO DE PAGO PARA ACTIVACION",plan:"Plus",vigencia:"3 meses"},
-{numero:"0345",nombre:"JONATHAN ULISES JAIMES REYES",estatus:"🟡 EN PROCESO DE PAGO PARA ACTIVACION",plan:"Plus",vigencia:"3 meses"},
-{numero:"0346",nombre:"MIGUEL ANGEL NAVARRETE MARTINEZ",estatus:"🔴 Cancelada Por incumplimiento de pago",plan:"Plus",vigencia:"3 meses"},
-{numero:"0347",nombre:"BRIAN MICHEL MARTÍNEZ GARCIA",estatus:"🔴 Cancelada Por incumplimiento de pago" ,plan:"Plus",vigencia:"3 meses"},
-{numero:"0348",nombre:"JUAN JOSE LOPEZ ORTIZ",estatus:"🟡 EN PROCESO DE PAGO PARA ACTIVACION",plan:"Plus",vigencia:"3 meses"},
-{numero:"0349",nombre:"LUCIO ORLANDO PEREZ ALFARO",estatus:"🟡 EN PROCESO DE PAGO PARA ACTIVACION",plan:"Plus",vigencia:"3 meses"},
-{numero:"0350",nombre:"DARVIN JESUS PADILLA DÍAZ",estatus:"🟡  SE TIENE QUE CUBRIR EL TOTAL DEL PAGO PARA ACTIVACION DE POLIZA",plan:"Plus",vigencia:"3 meses"},
-{numero:"0351",nombre:"MANUEL NUÑEZ LUGO",estatus:"🟡 EN PROCESO DE PAGO",plan:"Plus",vigencia:"3 meses"},
-{numero:"0352",nombre:"MANUEL",estatus:"🟡 EN PROCESO DE PAGO",plan:"Plus",vigencia:"3 meses"},
-{numero:"0353",nombre:"ALAN FERNANDO GIL ALVAREZ",estatus:"🟡 EN PROCESO DE PAGO PARA ACTIVACION",plan:"Plus",vigencia:"3 meses"},
-{numero:"0354",nombre:"CHRISTIAN MISAEL SANTIAGO VELAZQUEZ",estatus:"🟡 EN PROCESO DE PAGO PARA ACTIVACION",plan:"Plus",vigencia:"3 meses"},
-{numero:"0355",nombre:"IVÁN ALBERTO ORTEGA MUÑOZ",estatus:"🟡 EN PROCESO DE PAGO PARA ACTIVACION",plan:"Plus",vigencia:"3 meses"},
-{numero:"0356",nombre:"CARLO JESUS FLORES RIVAS",estatus:"🟡 EN PROCESO DE PAGO PARA ACTIVACION",plan:"Plus",vigencia:"3 meses"},
-{numero:"0357",nombre:"ADRIAN ALBERTO RODRIGUEZ PATRON",estatus:"🟡 EN PROCESO De PAGO PARA ACTIVACION",plan:"Plus",vigencia:"3 meses"},
-{numero:"0358",nombre:"TOMAS LEONARDO MARTINEZ LOPEZ",estatus:"🟡 EN PROCESO DE PAGO PARA ACTIVACION",plan:"Plus",vigencia:"3 meses"},
-{numero:"0359",nombre:"GERARDO MARIANO SIERRA BELTRAN",estatus:"🟡 EN PROCESO DE PAGO PARA ACTIVACION",plan:"Plus",vigencia:"3 meses"},
 {numero:"0360",nombre:"LEON ISAAC VARSHAVSKY MORENO",estatus:"🟡 EN PROCESO DE PAGO PARA ACTIVACION",plan:"Plus",vigencia:"3 meses"},
-{numero:"0361",nombre:"EN PROCESO DE VENTA",estatus:"🟡 EN PROCESO DE VENTA",plan:"Plus",vigencia:"3 meses"}
+
+/* ===== NUEVAS PÓLIZAS DISPONIBLES (001–050) ===== */
+{numero:"001",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"002",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"003",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"004",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"005",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"006",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"007",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"008",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"009",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"010",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+
+{numero:"011",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"012",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"013",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"014",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"015",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"016",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"017",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"018",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"019",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"020",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+
+{numero:"021",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"022",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"023",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"024",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"025",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"026",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"027",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"028",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"029",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"030",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+
+{numero:"031",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"032",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"033",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"034",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"035",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"036",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"037",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"038",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"039",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"040",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+
+{numero:"041",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"042",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"043",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"044",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"045",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"046",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"047",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"048",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"049",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
+{numero:"050",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"}
 
 ];
 
@@ -130,14 +171,23 @@ function verificar(){
   const b=document.getElementById("busqueda").value.trim().toLowerCase();
   const r=document.getElementById("resultado");
   const p=polizas.find(x=>x.numero===b||x.nombre.toLowerCase().includes(b));
-  r.innerHTML=p?
-  `<div>Póliza ${p.numero} - ${p.nombre}</div>
-   <div class="detalles">
-   <b>Estatus:</b> ${p.estatus}<br>
-   <b>Plan:</b> ${p.plan}<br>
-   <b>Vigencia:</b> ${p.vigencia}
-   </div>`:
-  "❌ Póliza no encontrada";
+
+  if(!p){
+    r.innerHTML="❌ Póliza no encontrada";
+    return;
+  }
+
+  let clase="proceso";
+  if(p.estatus.includes("ACTIVA")) clase="activa";
+  if(p.estatus.includes("Cancelada")) clase="cancelada";
+
+  r.innerHTML=`
+  <div>Póliza ${p.numero} - ${p.nombre}</div>
+  <div class="detalles ${clase}">
+    <b>Estatus:</b> ${p.estatus}<br>
+    <b>Plan:</b> ${p.plan}<br>
+    <b>Vigencia:</b> ${p.vigencia}
+  </div>`;
 }
 </script>
 
