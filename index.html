@@ -6,73 +6,19 @@
 <title>Portal de verificación de pólizas | Día Seguro</title>
 
 <style>
-body{
-  margin:0;
-  font-family:Segoe UI,Tahoma,sans-serif;
-  background:#f4f7fb;
-  text-align:center;
-  color:#1a2a45;
-}
-header{
-  background:linear-gradient(90deg,#002b5c,#007bff);
-  color:#fff;
-  padding:15px;
-  font-weight:bold;
-}
-.logo img{
-  width:180px;
-  margin:25px 0;
-}
-.card{
-  background:#fff;
-  max-width:420px;
-  margin:30px auto;
-  padding:25px;
-  border-radius:12px;
-  box-shadow:0 4px 15px rgba(0,0,0,.1);
-}
-input{
-  width:85%;
-  padding:12px;
-  text-align:center;
-  border-radius:6px;
-  border:1px solid #ccc;
-  font-size:16px;
-}
-button{
-  margin-top:12px;
-  padding:10px 35px;
-  background:#ff6600;
-  color:white;
-  border:none;
-  border-radius:6px;
-  cursor:pointer;
-  font-size:15px;
-}
-button:hover{background:#e65c00;}
-
-.detalles{
-  margin-top:12px;
-  padding:12px;
-  border-radius:8px;
-  font-size:.95em;
-}
-.activa{background:#e7f7ec;color:#1d7a3a;}
-.cancelada{background:#fdeaea;color:#a10000;}
-.proceso{background:#fff6e0;color:#9a6a00;}
-
-footer{
-  margin-top:40px;
-  padding:15px;
-  font-size:12px;
-  color:#555;
-}
-.aviso{
-  font-size:12px;
-  color:#666;
-  max-width:500px;
-  margin:20px auto;
-}
+body{margin:0;font-family:Segoe UI,Tahoma,sans-serif;background:#f4f7fb;text-align:center;color:#1a2a45}
+header{background:linear-gradient(90deg,#002b5c,#007bff);color:#fff;padding:15px;font-weight:bold}
+.card{background:#fff;max-width:420px;margin:30px auto;padding:25px;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,.1)}
+input,select{width:90%;padding:10px;margin:5px;border-radius:6px;border:1px solid #ccc}
+button{padding:8px 20px;border:none;border-radius:6px;background:#ff6600;color:#fff;cursor:pointer}
+button:hover{background:#e65c00}
+.detalles{margin-top:10px;padding:10px;border-radius:8px;background:#eef3fb}
+footer{margin:30px;font-size:12px;color:#666}
+.admin-btn{font-size:11px;color:#555;cursor:pointer;margin-top:20px}
+#adminPanel{display:none;background:#fff;max-width:900px;margin:30px auto;padding:20px;border-radius:12px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th,td{border:1px solid #ccc;padding:6px}
+th{background:#f0f0f0}
 </style>
 </head>
 
@@ -80,114 +26,78 @@ footer{
 
 <header>🔒 Portal de verificación de pólizas</header>
 
-<div class="logo">
-<img src="https://raw.githubusercontent.com/contactodiasegurosura-design/verificacion/b86f602d58b3e7f44656958b372d71edb83ffce3/logo-sura.png.jpg">
-</div>
-
-<h2>Día Seguro</h2>
-<p>Consulta informativa de estatus de pólizas</p>
-
-<div class="card">
-<input id="busqueda" placeholder="Número o nombre de póliza" onkeypress="if(event.key==='Enter')verificar()">
-<br>
+<div class="card" id="publico">
+<input id="busqueda" placeholder="Número o nombre de póliza">
+<br><br>
 <button onclick="verificar()">Buscar</button>
-<div id="resultado" style="margin-top:15px;font-weight:bold;"></div>
+<div id="resultado"></div>
+<div class="admin-btn" onclick="login()">Acceso administrativo</div>
 </div>
 
-<div class="aviso">
-⚠️ Este portal es de carácter informativo y de verificación interna.
+<div id="adminPanel">
+<h2>🔐 Panel privado</h2>
+<table id="tabla"></table>
+<br>
+<button onclick="guardar()">💾 Guardar cambios</button>
+<button onclick="cerrar()">Cerrar panel</button>
 </div>
 
-<footer>
-© 2026 Día Seguro · Verificación de pólizas
-</footer>
+<footer>© 2026 Día Seguro</footer>
 
 <script>
-const polizas = [
+const PASSWORD="admin123";
 
-/* ===== PÓLIZAS QUE SE MANTIENEN IGUAL ===== */
+let polizasBase=[
 {numero:"0332",nombre:"ALIN MONSERRAT SUASTEGUI MENDOZA",estatus:"🟡 ACTIVA",plan:"Plus",vigencia:"ANUAL"},
-{numero:"0360",nombre:"LEON ISAAC VARSHAVSKY MORENO",estatus:"🟡 EN PROCESO DE PAGO PARA ACTIVACION",plan:"Plus",vigencia:"3 meses"},
-
-/* ===== NUEVAS PÓLIZAS DISPONIBLES (001–050) ===== */
-{numero:"001",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"002",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"003",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"004",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"005",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"006",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"007",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"008",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"009",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"010",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-
-{numero:"011",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"012",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"013",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"014",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"015",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"016",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"017",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"018",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"019",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"020",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-
-{numero:"021",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"022",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"023",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"024",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"025",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"026",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"027",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"028",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"029",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"030",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-
-{numero:"031",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"032",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"033",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"034",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"035",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"036",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"037",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"038",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"039",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"040",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-
-{numero:"041",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"042",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"043",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"044",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"045",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"046",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"047",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"048",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"049",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"},
-{numero:"050",nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"}
-
+{numero:"0360",nombre:"LEON ISAAC VARSHAVSKY MORENO",estatus:"🟡 EN PROCESO DE PAGO PARA ACTIVACION",plan:"Plus",vigencia:"3 meses"}
 ];
 
+for(let i=1;i<=50;i++){
+  let n=i.toString().padStart(3,"0");
+  polizasBase.push({numero:n,nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"});
+}
+
+let polizas=JSON.parse(localStorage.getItem("polizas"))||polizasBase;
+
 function verificar(){
-  const b=document.getElementById("busqueda").value.trim().toLowerCase();
-  const r=document.getElementById("resultado");
+  const b=busqueda.value.toLowerCase();
   const p=polizas.find(x=>x.numero===b||x.nombre.toLowerCase().includes(b));
+  resultado.innerHTML=p?
+  `<div class="detalles"><b>Póliza:</b> ${p.numero}<br><b>Nombre:</b> ${p.nombre}<br><b>Estatus:</b> ${p.estatus}<br><b>Plan:</b> ${p.plan}<br><b>Vigencia:</b> ${p.vigencia}</div>`
+  :"❌ No encontrada";
+}
 
-  if(!p){
-    r.innerHTML="❌ Póliza no encontrada";
-    return;
-  }
+function login(){
+  const pass=prompt("Contraseña:");
+  if(pass===PASSWORD){
+    document.getElementById("publico").style.display="none";
+    document.getElementById("adminPanel").style.display="block";
+    renderTabla();
+  }else alert("Contraseña incorrecta");
+}
 
-  let clase="proceso";
-  if(p.estatus.includes("ACTIVA")) clase="activa";
-  if(p.estatus.includes("Cancelada")) clase="cancelada";
+function renderTabla(){
+  let html="<tr><th>#</th><th>Nombre</th><th>Estatus</th><th>Plan</th><th>Vigencia</th></tr>";
+  polizas.forEach((p,i)=>{
+    html+=`
+    <tr>
+      <td>${p.numero}</td>
+      <td><input value="${p.nombre}" onchange="polizas[${i}].nombre=this.value"></td>
+      <td><input value="${p.estatus}" onchange="polizas[${i}].estatus=this.value"></td>
+      <td><input value="${p.plan}" onchange="polizas[${i}].plan=this.value"></td>
+      <td><input value="${p.vigencia}" onchange="polizas[${i}].vigencia=this.value"></td>
+    </tr>`;
+  });
+  tabla.innerHTML=html;
+}
 
-  r.innerHTML=`
-  <div>Póliza ${p.numero} - ${p.nombre}</div>
-  <div class="detalles ${clase}">
-    <b>Estatus:</b> ${p.estatus}<br>
-    <b>Plan:</b> ${p.plan}<br>
-    <b>Vigencia:</b> ${p.vigencia}
-  </div>`;
+function guardar(){
+  localStorage.setItem("polizas",JSON.stringify(polizas));
+  alert("Cambios guardados");
+}
+
+function cerrar(){
+  location.reload();
 }
 </script>
 
