@@ -19,7 +19,6 @@ header{
   color:#fff;
   padding:18px;
   font-weight:bold;
-  font-size:1.05em;
 }
 
 .logo img{
@@ -34,38 +33,57 @@ header{
 .card{
   background:#fff;
   max-width:420px;
-  margin:30px auto;
-  padding:30px;
+  margin:25px auto;
+  padding:25px;
   border-radius:14px;
   box-shadow:0 6px 20px rgba(0,0,0,.12);
 }
 
 input, select{
-  width:85%;
+  width:90%;
   padding:10px;
   margin:6px 0;
-  text-align:center;
   border-radius:6px;
   border:1px solid #ccc;
+  text-align:center;
 }
 
 button{
-  margin-top:10px;
-  padding:10px 30px;
+  padding:10px 25px;
   background:#ff6600;
-  color:white;
+  color:#fff;
   border:none;
   border-radius:6px;
   cursor:pointer;
 }
 
 .detalles{
-  margin-top:10px;
   background:#eef3fb;
+  margin-top:10px;
   padding:10px;
   border-radius:8px;
   font-size:.9em;
 }
+
+/* CHAT */
+.chat{
+  max-width:420px;
+  margin:20px auto;
+  background:#fff;
+  border-radius:12px;
+  box-shadow:0 4px 15px rgba(0,0,0,.12);
+}
+
+.chat-log{
+  height:220px;
+  overflow-y:auto;
+  padding:10px;
+  text-align:left;
+  font-size:.9em;
+}
+
+.bot{color:#007bff}
+.user{color:#ff6600}
 </style>
 </head>
 
@@ -80,54 +98,57 @@ button{
 <h2>Día Seguro SURA</h2>
 <p>Consulta y verificación de pólizas</p>
 
+<!-- BUSCADOR -->
 <div class="card">
 <input id="busqueda" placeholder="Número o nombre de póliza"
 onkeyup="if(event.key==='Enter') verificar()">
-<br>
 <button onclick="verificar()">Buscar</button>
-<div id="resultado" style="margin-top:15px;font-weight:bold;"></div>
+<div id="resultado"></div>
 </div>
 
-<!-- PANEL ADMIN OCULTO -->
+<!-- CHAT BOT -->
+<div class="chat">
+<h3>💬 Chat de información</h3>
+<div class="chat-log" id="chatLog">
+<div class="bot">🤖 Bot: Hola, puedo darte informes de venta o consultar el estatus de una póliza.</div>
+</div>
+<input id="chatInput" placeholder="Escribe tu mensaje..."
+onkeyup="if(event.key==='Enter') enviarChat()">
+<button onclick="enviarChat()">Enviar</button>
+</div>
+
+<!-- PANEL ADMIN -->
 <div id="adminPanel" class="card" style="display:none">
 <h3>Panel Administrativo</h3>
-
 <input type="password" id="adminPass" placeholder="Contraseña">
 <button onclick="loginAdmin()">Entrar</button>
 
 <div id="adminZona" style="display:none">
 <hr>
-<h4>Modificar estatus de póliza</h4>
-
 <input id="editNumero" placeholder="Número de póliza">
-
 <select id="editEstatus">
-  <option>🟡 EN PROCESO DE VENTA</option>
-  <option>🟡 EN PROCESO DE PAGO</option>
-  <option>🟡 ACTIVA</option>
-  <option>🔴 CANCELADA</option>
+<option>🟡 EN PROCESO DE VENTA</option>
+<option>🟡 EN PROCESO DE PAGO</option>
+<option>🟡 ACTIVA</option>
+<option>🔴 CANCELADA</option>
 </select>
-
 <button onclick="actualizarPoliza()">Guardar cambios</button>
 </div>
 </div>
 
 <script>
-/* ================= CONFIGURACIÓN ================= */
-const ADMIN_PASS = "SURA2026";
+/* ===== CONFIG ===== */
+const ADMIN_PASS="SURA2026";
 
-/* ================= POLIZAS BASE ================= */
-let polizasBase = [
-  {
-    numero:"0332",
-    nombre:"ALIN MONSERRAT SUASTEGUI MENDOZA",
-    estatus:"🟡 ACTIVA",
-    plan:"Plus",
-    vigencia:"ANUAL"
-  }
-];
+/* ===== POLIZAS ===== */
+let polizasBase=[{
+  numero:"0332",
+  nombre:"ALIN MONSERRAT SUASTEGUI MENDOZA",
+  estatus:"🟡 ACTIVA",
+  plan:"Plus",
+  vigencia:"ANUAL"
+}];
 
-// Generar pólizas 001 a 200
 for(let i=1;i<=200;i++){
   polizasBase.push({
     numero:i.toString().padStart(3,"0"),
@@ -138,66 +159,73 @@ for(let i=1;i<=200;i++){
   });
 }
 
-// Guardar solo la primera vez
 if(!localStorage.getItem("polizas")){
   localStorage.setItem("polizas",JSON.stringify(polizasBase));
 }
 
-let polizas = JSON.parse(localStorage.getItem("polizas"));
+let polizas=JSON.parse(localStorage.getItem("polizas"));
 
-/* ================= BUSCADOR ================= */
+/* ===== BUSCADOR ===== */
 function verificar(){
-  const b=document.getElementById("busqueda").value.trim().toLowerCase();
+  const b=document.getElementById("busqueda").value.toLowerCase();
   const r=document.getElementById("resultado");
-
-  const p=polizas.find(x =>
-    x.numero===b || x.nombre.toLowerCase().includes(b)
-  );
-
-  r.innerHTML = p ? `
-    <div>Póliza ${p.numero} - ${p.nombre}</div>
-    <div class="detalles">
-      <b>Estatus:</b> ${p.estatus}<br>
-      <b>Plan:</b> ${p.plan}<br>
-      <b>Vigencia:</b> ${p.vigencia}
-    </div>
-  ` : "❌ Póliza no encontrada";
+  const p=polizas.find(x=>x.numero===b||x.nombre.toLowerCase().includes(b));
+  r.innerHTML=p?`
+  <div class="detalles">
+  <b>Póliza:</b> ${p.numero}<br>
+  <b>Nombre:</b> ${p.nombre}<br>
+  <b>Estatus:</b> ${p.estatus}
+  </div>`:"❌ Póliza no encontrada";
 }
 
-/* ================= COMBINACIÓN SECRETA ================= */
-document.addEventListener("keydown",function(e){
-  if(e.ctrlKey && e.shiftKey && e.key.toLowerCase()==="a"){
+/* ===== COMBINACIÓN SECRETA CTRL+S ===== */
+document.addEventListener("keydown",e=>{
+  if(e.ctrlKey && e.key.toLowerCase()==="s"){
+    e.preventDefault();
     document.getElementById("adminPanel").style.display="block";
   }
 });
 
-/* ================= ADMIN ================= */
+/* ===== ADMIN ===== */
 function loginAdmin(){
   if(document.getElementById("adminPass").value===ADMIN_PASS){
     document.getElementById("adminZona").style.display="block";
-  } else {
-    alert("Contraseña incorrecta");
-  }
+  }else alert("Contraseña incorrecta");
 }
 
 function actualizarPoliza(){
-  const num=document.getElementById("editNumero").value;
-  const est=document.getElementById("editEstatus").value;
-
-  if(num==="0332"){
-    alert("La póliza 0332 no puede modificarse");
-    return;
-  }
-
-  let p=polizas.find(x=>x.numero===num);
-  if(!p){
-    alert("Póliza no encontrada");
-    return;
-  }
-
-  p.estatus=est;
+  const n=document.getElementById("editNumero").value;
+  if(n==="0332"){alert("0332 protegida");return;}
+  const p=polizas.find(x=>x.numero===n);
+  if(!p){alert("No existe");return;}
+  p.estatus=document.getElementById("editEstatus").value;
   localStorage.setItem("polizas",JSON.stringify(polizas));
-  alert("Estatus actualizado correctamente");
+  alert("Actualizada");
+}
+
+/* ===== CHAT BOT ===== */
+function enviarChat(){
+  const i=document.getElementById("chatInput");
+  const t=i.value.toLowerCase();
+  const l=document.getElementById("chatLog");
+  if(!t)return;
+
+  l.innerHTML+=`<div class="user">👤 Tú: ${i.value}</div>`;
+
+  let r="No entendí tu mensaje.";
+  if(t.includes("precio")||t.includes("venta")){
+    r="Las pólizas están disponibles, solicita informes con un asesor autorizado.";
+  }else if(t.includes("estatus")||t.includes("poliza")){
+    const num=t.match(/\d+/);
+    if(num){
+      const p=polizas.find(x=>x.numero===num[0].padStart(3,"0"));
+      r=p?`La póliza ${p.numero} está ${p.estatus}`:"No se encontró esa póliza.";
+    }
+  }
+
+  l.innerHTML+=`<div class="bot">🤖 Bot: ${r}</div>`;
+  l.scrollTop=l.scrollHeight;
+  i.value="";
 }
 </script>
 
