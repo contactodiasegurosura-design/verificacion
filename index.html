@@ -3,101 +3,201 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portal de verificación de pólizas | Día Seguro</title>
+<title>Portal oficial de verificación de pólizas Día Seguro SURA</title>
 
 <style>
-body{margin:0;font-family:Segoe UI,Tahoma,sans-serif;background:#f4f7fb;text-align:center;color:#1a2a45}
-header{background:linear-gradient(90deg,#002b5c,#007bff);color:#fff;padding:15px;font-weight:bold}
-.card{background:#fff;max-width:420px;margin:30px auto;padding:25px;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,.1)}
-input,select{width:90%;padding:10px;margin:5px;border-radius:6px;border:1px solid #ccc}
-button{padding:8px 20px;border:none;border-radius:6px;background:#ff6600;color:#fff;cursor:pointer}
-button:hover{background:#e65c00}
-.detalles{margin-top:10px;padding:10px;border-radius:8px;background:#eef3fb}
-footer{margin:30px;font-size:12px;color:#666}
-.admin-btn{font-size:11px;color:#555;cursor:pointer;margin-top:20px}
-#adminPanel{display:none;background:#fff;max-width:900px;margin:30px auto;padding:20px;border-radius:12px}
-table{width:100%;border-collapse:collapse;font-size:12px}
-th,td{border:1px solid #ccc;padding:6px}
-th{background:#f0f0f0}
+body{
+  margin:0;
+  font-family:Segoe UI,Tahoma,sans-serif;
+  background:#f4f7fb;
+  text-align:center;
+  color:#1a2a45;
+}
+
+header{
+  background:linear-gradient(90deg,#002b5c,#007bff);
+  color:#fff;
+  padding:18px;
+  font-weight:bold;
+  font-size:1.05em;
+}
+
+.logo img{
+  width:180px;
+  margin:25px 0;
+  background:#fff;
+  padding:10px;
+  border-radius:8px;
+  box-shadow:0 4px 10px rgba(0,0,0,.15);
+}
+
+.card{
+  background:#fff;
+  max-width:420px;
+  margin:30px auto;
+  padding:30px;
+  border-radius:14px;
+  box-shadow:0 6px 20px rgba(0,0,0,.12);
+}
+
+input, select{
+  width:85%;
+  padding:10px;
+  margin:6px 0;
+  text-align:center;
+  border-radius:6px;
+  border:1px solid #ccc;
+}
+
+button{
+  margin-top:10px;
+  padding:10px 30px;
+  background:#ff6600;
+  color:white;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+.detalles{
+  margin-top:10px;
+  background:#eef3fb;
+  padding:10px;
+  border-radius:8px;
+  font-size:.9em;
+}
 </style>
 </head>
 
 <body>
 
-<header>🔒 Portal de verificación de pólizas</header>
+<header>🔒 Portal oficial de verificación Día Seguro SURA</header>
 
-<div class="card" id="publico">
-<input id="busqueda" placeholder="Número o nombre de póliza">
-<br><br>
-<button onclick="verificar()">Buscar</button>
-<div id="resultado"></div>
-<div class="admin-btn" onclick="login()">Acceso administrativo</div>
+<div class="logo">
+<img src="https://raw.githubusercontent.com/contactodiasegurosura-design/verificacion/b86f602d58b3e7f44656958b372d71edb83ffce3/logo-sura.png.jpg">
 </div>
 
-<div id="adminPanel">
-<h2>🔐 Panel privado</h2>
-<table id="tabla"></table>
+<h2>Día Seguro SURA</h2>
+<p>Consulta y verificación de pólizas</p>
+
+<div class="card">
+<input id="busqueda" placeholder="Número o nombre de póliza"
+onkeyup="if(event.key==='Enter') verificar()">
 <br>
-<button onclick="guardar()">💾 Guardar cambios</button>
-<button onclick="cerrar()">Cerrar panel</button>
+<button onclick="verificar()">Buscar</button>
+<div id="resultado" style="margin-top:15px;font-weight:bold;"></div>
 </div>
 
-<footer>© 2026 Día Seguro</footer>
+<!-- PANEL ADMIN OCULTO -->
+<div id="adminPanel" class="card" style="display:none">
+<h3>Panel Administrativo</h3>
+
+<input type="password" id="adminPass" placeholder="Contraseña">
+<button onclick="loginAdmin()">Entrar</button>
+
+<div id="adminZona" style="display:none">
+<hr>
+<h4>Modificar estatus de póliza</h4>
+
+<input id="editNumero" placeholder="Número de póliza">
+
+<select id="editEstatus">
+  <option>🟡 EN PROCESO DE VENTA</option>
+  <option>🟡 EN PROCESO DE PAGO</option>
+  <option>🟡 ACTIVA</option>
+  <option>🔴 CANCELADA</option>
+</select>
+
+<button onclick="actualizarPoliza()">Guardar cambios</button>
+</div>
+</div>
 
 <script>
-const PASSWORD="admin123";
+/* ================= CONFIGURACIÓN ================= */
+const ADMIN_PASS = "SURA2026";
 
-let polizasBase=[
-{numero:"0332",nombre:"ALIN MONSERRAT SUASTEGUI MENDOZA",estatus:"🟡 ACTIVA",plan:"Plus",vigencia:"ANUAL"},
-{numero:"0360",nombre:"LEON ISAAC VARSHAVSKY MORENO",estatus:"🟡 EN PROCESO DE PAGO PARA ACTIVACION",plan:"Plus",vigencia:"3 meses"}
+/* ================= POLIZAS BASE ================= */
+let polizasBase = [
+  {
+    numero:"0332",
+    nombre:"ALIN MONSERRAT SUASTEGUI MENDOZA",
+    estatus:"🟡 ACTIVA",
+    plan:"Plus",
+    vigencia:"ANUAL"
+  }
 ];
 
-for(let i=1;i<=50;i++){
-  let n=i.toString().padStart(3,"0");
-  polizasBase.push({numero:n,nombre:"Póliza sin vender",estatus:"🟡 EN PROCESO DE VENTA",plan:"MULTIPLATAFORMA",vigencia:"3 meses"});
-}
-
-let polizas=JSON.parse(localStorage.getItem("polizas"))||polizasBase;
-
-function verificar(){
-  const b=busqueda.value.toLowerCase();
-  const p=polizas.find(x=>x.numero===b||x.nombre.toLowerCase().includes(b));
-  resultado.innerHTML=p?
-  `<div class="detalles"><b>Póliza:</b> ${p.numero}<br><b>Nombre:</b> ${p.nombre}<br><b>Estatus:</b> ${p.estatus}<br><b>Plan:</b> ${p.plan}<br><b>Vigencia:</b> ${p.vigencia}</div>`
-  :"❌ No encontrada";
-}
-
-function login(){
-  const pass=prompt("Contraseña:");
-  if(pass===PASSWORD){
-    document.getElementById("publico").style.display="none";
-    document.getElementById("adminPanel").style.display="block";
-    renderTabla();
-  }else alert("Contraseña incorrecta");
-}
-
-function renderTabla(){
-  let html="<tr><th>#</th><th>Nombre</th><th>Estatus</th><th>Plan</th><th>Vigencia</th></tr>";
-  polizas.forEach((p,i)=>{
-    html+=`
-    <tr>
-      <td>${p.numero}</td>
-      <td><input value="${p.nombre}" onchange="polizas[${i}].nombre=this.value"></td>
-      <td><input value="${p.estatus}" onchange="polizas[${i}].estatus=this.value"></td>
-      <td><input value="${p.plan}" onchange="polizas[${i}].plan=this.value"></td>
-      <td><input value="${p.vigencia}" onchange="polizas[${i}].vigencia=this.value"></td>
-    </tr>`;
+// Generar pólizas 001 a 200
+for(let i=1;i<=200;i++){
+  polizasBase.push({
+    numero:i.toString().padStart(3,"0"),
+    nombre:"EN PROCESO DE VENTA",
+    estatus:"🟡 EN PROCESO DE VENTA",
+    plan:"Plus",
+    vigencia:"3 meses"
   });
-  tabla.innerHTML=html;
 }
 
-function guardar(){
+// Guardar solo la primera vez
+if(!localStorage.getItem("polizas")){
+  localStorage.setItem("polizas",JSON.stringify(polizasBase));
+}
+
+let polizas = JSON.parse(localStorage.getItem("polizas"));
+
+/* ================= BUSCADOR ================= */
+function verificar(){
+  const b=document.getElementById("busqueda").value.trim().toLowerCase();
+  const r=document.getElementById("resultado");
+
+  const p=polizas.find(x =>
+    x.numero===b || x.nombre.toLowerCase().includes(b)
+  );
+
+  r.innerHTML = p ? `
+    <div>Póliza ${p.numero} - ${p.nombre}</div>
+    <div class="detalles">
+      <b>Estatus:</b> ${p.estatus}<br>
+      <b>Plan:</b> ${p.plan}<br>
+      <b>Vigencia:</b> ${p.vigencia}
+    </div>
+  ` : "❌ Póliza no encontrada";
+}
+
+/* ================= COMBINACIÓN SECRETA ================= */
+document.addEventListener("keydown",function(e){
+  if(e.ctrlKey && e.shiftKey && e.key.toLowerCase()==="a"){
+    document.getElementById("adminPanel").style.display="block";
+  }
+});
+
+/* ================= ADMIN ================= */
+function loginAdmin(){
+  if(document.getElementById("adminPass").value===ADMIN_PASS){
+    document.getElementById("adminZona").style.display="block";
+  } else {
+    alert("Contraseña incorrecta");
+  }
+}
+
+function actualizarPoliza(){
+  const num=document.getElementById("editNumero").value;
+  const est=document.getElementById("editEstatus").value;
+
+  if(num==="0332"){
+    alert("La póliza 0332 no puede modificarse");
+    return;
+  }
+
+  let p=polizas.find(x=>x.numero===num);
+  if(!p){
+    alert("Póliza no encontrada");
+    return;
+  }
+
+  p.estatus=est;
   localStorage.setItem("polizas",JSON.stringify(polizas));
-  alert("Cambios guardados");
-}
-
-function cerrar(){
-  location.reload();
+  alert("Estatus actualizado correctamente");
 }
 </script>
 
