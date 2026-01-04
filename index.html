@@ -6,65 +6,25 @@
 <title>Portal oficial de verificación de pólizas | Día Seguro SURA</title>
 
 <style>
-body{
-  margin:0;
-  font-family:Segoe UI,Tahoma,sans-serif;
-  background:#f4f7fb;
-  text-align:center;
-  color:#1a2a45;
-}
-header{
-  background:linear-gradient(90deg,#002b5c,#007bff);
-  color:#fff;
-  padding:15px;
-  font-weight:bold;
-}
-.logo img{
-  width:180px;
-  margin:25px 0;
-}
-.card{
-  background:#fff;
-  max-width:420px;
-  margin:30px auto;
-  padding:25px;
-  border-radius:12px;
-  box-shadow:0 4px 15px rgba(0,0,0,.1);
-}
-input{
-  width:80%;
-  padding:10px;
-  text-align:center;
-  border-radius:6px;
-  border:1px solid #ccc;
-}
-button{
-  margin-top:10px;
-  padding:10px 30px;
-  background:#ff6600;
-  color:white;
-  border:none;
-  border-radius:6px;
-  cursor:pointer;
-}
-.detalles{
-  margin-top:10px;
-  background:#eef3fb;
-  padding:10px;
-  border-radius:8px;
-  font-size:.9em;
-}
-.reseñas{
-  max-width:420px;
-  margin:15px auto;
-  font-size:.9em;
-  color:#444;
-}
-footer{
-  margin:30px 10px;
-  font-size:.75em;
-  color:#666;
-}
+body{margin:0;font-family:Segoe UI,Tahoma,sans-serif;background:#f4f7fb;text-align:center;color:#1a2a45}
+header{background:linear-gradient(90deg,#002b5c,#007bff);color:#fff;padding:15px;font-weight:bold}
+.logo img{width:180px;margin:25px 0}
+.card{background:#fff;max-width:420px;margin:30px auto;padding:25px;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,.1)}
+input,select{width:80%;padding:10px;text-align:center;border-radius:6px;border:1px solid #ccc;margin:6px 0}
+button{margin-top:10px;padding:10px 30px;background:#ff6600;color:#fff;border:none;border-radius:6px;cursor:pointer}
+.detalles{margin-top:10px;background:#eef3fb;padding:10px;border-radius:8px;font-size:.9em}
+.reseñas{max-width:420px;margin:15px auto;font-size:.9em;color:#444}
+footer{margin:30px 10px;font-size:.75em;color:#666}
+
+/* ===== MODAL ===== */
+.modal-bg{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:1000}
+.modal{background:#fff;width:90%;max-width:420px;margin:60px auto;padding:20px;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.25)}
+.modal h3{margin-top:0}
+.modal small{color:#666}
+.modal .row{margin:6px 0}
+.close{background:#ccc;color:#000}
+.danger{background:#d9534f}
+.hidden{display:none}
 </style>
 </head>
 
@@ -78,7 +38,7 @@ footer{
 
 <h2>Día Seguro SURA</h2>
 <p>Consulta y verificación de pólizas</p>
-<p style="font-size:.85em;color:#555;">
+<p style="font-size:.85em;color:#555">
 Plataforma privada de verificación y control de pólizas · Operación nacional
 </p>
 
@@ -103,9 +63,62 @@ Plataforma privada de verificación y control de pólizas · Operación nacional
 © Día Seguro SURA · Sistema de control y verificación
 </footer>
 
+<!-- ================= MODAL LOGIN ================= -->
+<div id="loginBG" class="modal-bg">
+  <div class="modal">
+    <h3>Acceso administrativo</h3>
+    <div class="row">
+      <input id="adminPass" type="password" placeholder="Contraseña">
+    </div>
+    <button onclick="loginAdmin()">Entrar</button>
+    <button class="close" onclick="cerrarLogin()">Cancelar</button>
+  </div>
+</div>
+
+<!-- ================= MODAL ADMIN ================= -->
+<div id="adminBG" class="modal-bg">
+  <div class="modal">
+    <h3>Panel administrativo</h3>
+    <small>Agregar / editar pólizas (0332 protegida)</small>
+
+    <div class="row"><input id="a_numero" placeholder="Número (001-200)"></div>
+    <div class="row"><input id="a_nombre" placeholder="Nombre del conductor"></div>
+    <div class="row"><input id="a_marca" placeholder="Marca"></div>
+    <div class="row"><input id="a_modelo" placeholder="Modelo"></div>
+    <div class="row"><input id="a_año" placeholder="Año"></div>
+    <div class="row"><input id="a_color" placeholder="Color"></div>
+    <div class="row">
+      <select id="a_estatus">
+        <option>🟡 EN PROCESO DE VENTA</option>
+        <option>🟡 EN PROCESO DE PAGO</option>
+        <option>🟡 ACTIVA</option>
+        <option>🔴 CANCELADA</option>
+      </select>
+    </div>
+    <div class="row">
+      <select id="a_plan">
+        <option>Plus</option>
+        <option>Platino Plus</option>
+      </select>
+    </div>
+    <div class="row">
+      <select id="a_vigencia">
+        <option>ANUAL</option>
+        <option>3 meses</option>
+      </select>
+    </div>
+
+    <button onclick="guardarPoliza()">Guardar póliza</button>
+    <button class="close" onclick="cerrarAdmin()">Cerrar</button>
+  </div>
+</div>
+
 <script>
-/* ===== INICIALIZACIÓN SEGURA ===== */
-const POLIZA_FIJA = {
+/* ===== CONFIG ===== */
+const ADMIN_PASS = "moreno476";
+
+/* ===== POLIZA PROTEGIDA ===== */
+const POLIZA_0332 = {
   numero:"0332",
   nombre:"ALIN MONSERRAT SUASTEGUI MENDOZA",
   estatus:"🟡 ACTIVA",
@@ -117,50 +130,104 @@ const POLIZA_FIJA = {
   color:"No especificado"
 };
 
-if(!localStorage.getItem("polizas")){
-  localStorage.setItem("polizas", JSON.stringify([POLIZA_FIJA]));
-}
-
-/* ===== FUNCIÓN DE CONSULTA ===== */
-function verificar(){
-  const busqueda = document.getElementById("busqueda").value.trim().toLowerCase();
-  const resultado = document.getElementById("resultado");
-  const polizas = JSON.parse(localStorage.getItem("polizas")) || [];
-
-  const encontrada = polizas.find(p =>
-    p.numero === busqueda ||
-    p.nombre.toLowerCase().includes(busqueda)
-  );
-
-  const fecha = new Date();
-  const fechaTxt = fecha.toLocaleDateString("es-MX");
-  const horaTxt = fecha.toLocaleTimeString("es-MX");
-
-  if(encontrada){
-    resultado.innerHTML = `
-      <div>Póliza ${encontrada.numero}</div>
-      <div class="detalles">
-        <b>Conductor:</b> ${encontrada.nombre}<br>
-        <b>Estatus:</b> ${encontrada.estatus}<br>
-        <b>Plan:</b> ${encontrada.plan}<br>
-        <b>Vigencia:</b> ${encontrada.vigencia}<br><br>
-        <b>Vehículo:</b><br>
-        Marca: ${encontrada.marca || "—"}<br>
-        Modelo: ${encontrada.modelo || "—"}<br>
-        Año: ${encontrada.año || "—"}<br>
-        Color: ${encontrada.color || "—"}<br><br>
-        <i>Consulta realizada el ${fechaTxt} a las ${horaTxt}</i>
-      </div>
-    `;
+/* ===== INIT ===== */
+function init(){
+  let polizas = JSON.parse(localStorage.getItem("polizas"));
+  if(!Array.isArray(polizas)){
+    localStorage.setItem("polizas", JSON.stringify([POLIZA_0332]));
   } else {
-    resultado.innerHTML = `
+    // asegurar 0332
+    if(!polizas.find(p=>p.numero==="0332")){
+      polizas.push(POLIZA_0332);
+      localStorage.setItem("polizas", JSON.stringify(polizas));
+    }
+  }
+}
+init();
+
+/* ===== CONSULTA ===== */
+function verificar(){
+  const q = document.getElementById("busqueda").value.trim().toLowerCase();
+  const r = document.getElementById("resultado");
+  const polizas = JSON.parse(localStorage.getItem("polizas"))||[];
+  const p = polizas.find(x=>x.numero===q || x.nombre.toLowerCase().includes(q));
+  const d = new Date();
+  const fh = d.toLocaleDateString("es-MX")+" "+d.toLocaleTimeString("es-MX");
+
+  if(p){
+    r.innerHTML = `
+      <div>Póliza ${p.numero}</div>
+      <div class="detalles">
+        <b>Conductor:</b> ${p.nombre}<br>
+        <b>Estatus:</b> ${p.estatus}<br>
+        <b>Plan:</b> ${p.plan}<br>
+        <b>Vigencia:</b> ${p.vigencia}<br><br>
+        <b>Vehículo</b><br>
+        Marca: ${p.marca||"—"}<br>
+        Modelo: ${p.modelo||"—"}<br>
+        Año: ${p.año||"—"}<br>
+        Color: ${p.color||"—"}<br><br>
+        <i>Consulta realizada: ${fh}</i>
+      </div>`;
+  } else {
+    r.innerHTML = `
       <div class="detalles">
         🟡 <b>Póliza en proceso de venta o registro</b><br>
         La información puede tardar en reflejarse tras la activación.<br><br>
-        <i>Consulta realizada el ${fechaTxt} a las ${horaTxt}</i>
-      </div>
-    `;
+        <i>Consulta realizada: ${fh}</i>
+      </div>`;
   }
+}
+
+/* ===== ADMIN ACCESS (Ctrl + D) ===== */
+document.addEventListener("keydown",e=>{
+  if(e.ctrlKey && e.key.toLowerCase()==="d"){
+    e.preventDefault();
+    document.getElementById("loginBG").style.display="block";
+  }
+});
+
+function cerrarLogin(){
+  document.getElementById("loginBG").style.display="none";
+  document.getElementById("adminPass").value="";
+}
+
+function loginAdmin(){
+  if(document.getElementById("adminPass").value===ADMIN_PASS){
+    cerrarLogin();
+    document.getElementById("adminBG").style.display="block";
+  } else {
+    alert("Contraseña incorrecta");
+  }
+}
+
+function cerrarAdmin(){
+  document.getElementById("adminBG").style.display="none";
+}
+
+/* ===== GUARDAR POLIZA ===== */
+function guardarPoliza(){
+  const numero = document.getElementById("a_numero").value.trim();
+  if(numero==="0332"){ alert("La póliza 0332 está protegida"); return; }
+
+  const polizas = JSON.parse(localStorage.getItem("polizas"))||[];
+  const idx = polizas.findIndex(p=>p.numero===numero);
+
+  const nueva = {
+    numero,
+    nombre:document.getElementById("a_nombre").value,
+    marca:document.getElementById("a_marca").value,
+    modelo:document.getElementById("a_modelo").value,
+    año:document.getElementById("a_año").value,
+    color:document.getElementById("a_color").value,
+    estatus:document.getElementById("a_estatus").value,
+    plan:document.getElementById("a_plan").value,
+    vigencia:document.getElementById("a_vigencia").value
+  };
+
+  if(idx>=0) polizas[idx]=nueva; else polizas.push(nueva);
+  localStorage.setItem("polizas", JSON.stringify(polizas));
+  alert("Póliza guardada correctamente");
 }
 </script>
 
