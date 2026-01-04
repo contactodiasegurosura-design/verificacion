@@ -2,205 +2,104 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Sistema de Pólizas</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal oficial de verificación de pólizas Día Seguro SURA</title>
+
 <style>
-body{font-family:Arial;background:#f4f6f8;padding:20px}
-h1{text-align:center}
-table{width:100%;border-collapse:collapse;margin-top:20px;font-size:14px}
-th,td{border:1px solid #ccc;padding:6px;text-align:center}
-th{background:#003366;color:#fff}
-.disponible{color:green;font-weight:bold}
-.vendida{color:blue;font-weight:bold}
-.cancelada{color:red;font-weight:bold}
-
-#adminPanel{display:none;position:fixed;top:3%;left:50%;transform:translateX(-50%);
-background:#fff;border:3px solid #003366;padding:15px;width:95%;max-width:700px;z-index:999}
-
-input,select,button{width:100%;padding:6px;margin:4px}
-
-#chatBot{position:fixed;bottom:10px;right:10px;width:320px;background:#fff;border:2px solid #003366}
-#chatHead{background:#003366;color:#fff;padding:6px}
-#chatBody{height:220px;overflow:auto;padding:6px;font-size:14px}
-#chatInput{width:100%;padding:6px}
+body{
+  margin:0;
+  font-family:Segoe UI, Tahoma, sans-serif;
+  background:#f4f7fb;
+  text-align:center;
+  color:#1a2a45;
+}
+header{
+  background:linear-gradient(90deg,#002b5c,#007bff);
+  color:#fff;
+  padding:15px;
+  font-weight:bold;
+}
+.logo img{
+  width:180px;
+  margin:25px 0;
+}
+.card{
+  background:#fff;
+  max-width:420px;
+  margin:30px auto;
+  padding:25px;
+  border-radius:12px;
+  box-shadow:0 4px 15px rgba(0,0,0,.1);
+}
+input{
+  width:80%;
+  padding:10px;
+  text-align:center;
+  border-radius:6px;
+  border:1px solid #ccc;
+}
+button{
+  margin-top:10px;
+  padding:10px 30px;
+  background:#ff6600;
+  color:white;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+}
+.detalles{
+  margin-top:15px;
+  background:#eef3fb;
+  padding:12px;
+  border-radius:8px;
+  font-size:.95em;
+  text-align:left;
+}
+.vigente{color:green;font-weight:bold}
+.proceso{color:#d48806;font-weight:bold}
 </style>
 </head>
 
 <body>
 
-<h1>Control y Venta de Pólizas</h1>
+<header>🔒 Portal oficial de verificación Día Seguro SURA</header>
 
-<table>
-<thead>
-<tr>
-<th>Póliza</th>
-<th>Cliente</th>
-<th>Estatus</th>
-<th>Plan</th>
-<th>Vigencia</th>
-<th>Modelo</th>
-<th>Año</th>
-<th>Color</th>
-<th>Actualización</th>
-</tr>
-</thead>
-<tbody id="tabla"></tbody>
-</table>
-
-<!-- ADMIN -->
-<div id="adminPanel">
-<h3>Panel Administrativo</h3>
-<input type="password" id="pass" placeholder="Contraseña">
-<button onclick="login()">Entrar</button>
-
-<div id="adminForm" style="display:none">
-<input id="numero" placeholder="Número de póliza (001-200)">
-<input id="nombre" placeholder="Nombre del cliente">
-<select id="estatus">
-<option>Disponible</option>
-<option>Vendida</option>
-<option>🔴 Cancelada</option>
-</select>
-<select id="plan">
-<option>Básico</option>
-<option>Plus</option>
-<option>Premium</option>
-</select>
-<select id="vigencia">
-<option>Mensual</option>
-<option>Anual</option>
-</select>
-<input id="modelo" placeholder="Modelo">
-<input id="anio" placeholder="Año">
-<input id="color" placeholder="Color">
-<button onclick="guardar()">Guardar / Actualizar</button>
-<button onclick="cerrar()">Cerrar</button>
-</div>
+<div class="logo">
+<img src="https://raw.githubusercontent.com/contactodiasegurosura-design/verificacion/b86f602d58b3e7f44656958b372d71edb83ffce3/logo-sura.png.jpg">
 </div>
 
-<!-- CHAT BOT -->
-<div id="chatBot">
-<div id="chatHead">🤖 Chat de Cotización</div>
-<div id="chatBody"></div>
-<input id="chatInput" placeholder="Ej: cotizar plan plus anual" 
-onkeypress="if(event.key==='Enter')chat()">
+<h2>Día Seguro SURA</h2>
+<p>Consulta y verificación de pólizas</p>
+
+<div class="card">
+<input id="busqueda" placeholder="Número de póliza">
+<br>
+<button onclick="verificar()">Consultar</button>
+<div id="resultado"></div>
 </div>
 
 <script>
-const PASSWORD="SURA2026";
+// ================= PÓLIZAS REGISTRADAS =================
+const polizas = {
 
-const precios={
-"basico_mensual":500,
-"basico_anual":5000,
-"plus_mensual":800,
-"plus_anual":8000,
-"premium_mensual":1200,
-"premium_anual":12000
+  // 🔒 PÓLIZA FIJA - NO SE ELIMINA
+  "0332":{
+    nombre:"ALIN MONSERRAT SUASTEGUI MENDOZA",
+    marca:"Chevrolet",
+    modelo:"Spark",
+    año:"2017",
+    color:"—",
+    plan:"Plus",
+    vigencia:"ANUAL",
+    estatus:"VIGENTE"
+  }
+
+  // 👉 Aquí se agregan las pólizas vendidas desde el sistema administrativo
 };
 
-let polizas={};
+// ================= FUNCIÓN DE CONSULTA =================
+function verificar(){
+  const num = document.getElementById("busqueda").value.trim();
+  const r = document.getElementById("resultado");
 
-// 0332 fija
-polizas["0332"]={
-numero:"0332",nombre:"",estatus:"Vendida",plan:"",vigencia:"",
-modelo:"",anio:"",color:"",fecha:new Date().toLocaleString()
-};
-
-// 001-200
-for(let i=1;i<=200;i++){
-let n=String(i).padStart(3,"0");
-polizas[n]={numero:n,nombre:"",estatus:"Disponible",plan:"",
-vigencia:"",modelo:"",anio:"",color:"",fecha:""};
-}
-
-function render(){
-let html="";
-Object.values(polizas).sort((a,b)=>a.numero.localeCompare(b.numero)).forEach(p=>{
-let cls=p.estatus==="Disponible"?"disponible":p.estatus==="Vendida"?"vendida":"cancelada";
-html+=`<tr>
-<td>${p.numero}</td>
-<td>${p.nombre}</td>
-<td class="${cls}">${p.estatus}</td>
-<td>${p.plan}</td>
-<td>${p.vigencia}</td>
-<td>${p.modelo}</td>
-<td>${p.anio}</td>
-<td>${p.color}</td>
-<td>${p.fecha}</td>
-</tr>`;
-});
-tabla.innerHTML=html;
-}
-render();
-
-// Ctrl + S
-document.addEventListener("keydown",e=>{
-if(e.ctrlKey && e.key.toLowerCase()==="s"){
-e.preventDefault();
-adminPanel.style.display="block";
-}
-});
-
-function login(){
-if(pass.value===PASSWORD){
-adminForm.style.display="block";
-}else alert("Contraseña incorrecta");
-}
-
-function guardar(){
-let n=numero.value;
-if(!polizas[n]){alert("Póliza inválida");return;}
-polizas[n]={
-numero:n,
-nombre:nombre.value,
-estatus:estatus.value,
-plan:plan.value,
-vigencia:vigencia.value,
-modelo:modelo.value,
-anio:anio.value,
-color:color.value,
-fecha:new Date().toLocaleString()
-};
-render();
-alert("Póliza guardada");
-}
-
-function cerrar(){
-adminPanel.style.display="none";
-adminForm.style.display="none";
-pass.value="";
-}
-
-// CHAT BOT
-function chat(){
-let t=chatInput.value.toLowerCase();
-chatInput.value="";
-chatBody.innerHTML+=`<div><b>Tú:</b> ${t}</div>`;
-
-let num=t.match(/\d{3}/);
-if(num && polizas[num[0]]){
-let p=polizas[num[0]];
-chatBody.innerHTML+=`<div><b>Bot:</b><br>
-Póliza ${p.numero}<br>
-Cliente: ${p.nombre}<br>
-Estatus: ${p.estatus}<br>
-Plan: ${p.plan}<br>
-Vigencia: ${p.vigencia}</div>`;
-}
-else if(t.includes("cotizar")){
-let plan=t.includes("plus")?"plus":t.includes("premium")?"premium":"basico";
-let vig=t.includes("anual")?"anual":"mensual";
-let precio=precios[plan+"_"+vig];
-chatBody.innerHTML+=`<div><b>Bot:</b> El costo del plan ${plan.toUpperCase()} ${vig.toUpperCase()} es <b>$${precio} MXN</b></div>`;
-}
-else{
-chatBody.innerHTML+=`<div><b>Bot:</b> Puedes escribir:<br>
-• póliza 001<br>
-• cotizar plan plus anual</div>`;
-}
-
-chatBody.scrollTop=chatBody.scrollHeight;
-}
-</script>
-
-</body>
-</html>
+  // 🔒 EXCEPCIÓN PÓ
