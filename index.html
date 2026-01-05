@@ -2,225 +2,252 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Consulta de Pólizas</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verificación de Pólizas | Día Seguro SURA</title>
+
 <style>
-body {
-  font-family: Arial, sans-serif;
-  background: #f4f6f8;
-  margin: 0;
-  padding: 20px;
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#eef2f7;
+  color:#1a2a45;
+  text-align:center
 }
-h1 {
-  text-align: center;
+header{
+  background:#002b5c;
+  color:#fff;
+  padding:16px;
+  font-size:18px;
+  font-weight:bold
 }
-input, button {
-  padding: 8px;
-  margin: 4px;
+.container{
+  max-width:420px;
+  margin:30px auto;
+  background:#fff;
+  padding:25px;
+  border-radius:12px;
+  box-shadow:0 6px 18px rgba(0,0,0,.15)
 }
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 15px;
+h2{margin-top:0}
+input,select,button{
+  width:100%;
+  padding:10px;
+  margin:6px 0;
+  border-radius:6px;
+  border:1px solid #ccc;
+  font-size:15px
 }
-th, td {
-  border: 1px solid #ccc;
-  padding: 8px;
-  text-align: center;
+button{
+  background:#ff6600;
+  color:#fff;
+  border:none;
+  cursor:pointer
 }
-th {
-  background: #222;
-  color: white;
+button:hover{opacity:.9}
+.resultado{
+  margin-top:15px;
+  background:#f1f5fb;
+  padding:12px;
+  border-radius:8px;
+  font-size:14px;
+  text-align:left
 }
-.modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.6);
+footer{
+  margin:25px 10px;
+  font-size:12px;
+  color:#666
 }
-.modal-content {
-  background: white;
-  width: 90%;
-  max-width: 700px;
-  margin: 40px auto;
-  padding: 20px;
-  border-radius: 8px;
+
+/* ===== MODALES ===== */
+.modal-bg{
+  display:none;
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:rgba(0,0,0,.6);
+  z-index:1000
 }
-.admin {
-  background: #0a58ca;
-  color: white;
+.modal{
+  background:#fff;
+  max-width:420px;
+  margin:60px auto;
+  padding:20px;
+  border-radius:10px;
+  text-align:left
 }
-.protegida {
-  background: #eee;
-}
+.modal h3{text-align:center;margin-top:0}
+.close{background:#ccc;color:#000}
 </style>
 </head>
 
 <body>
 
-<h1>Consulta de Pólizas</h1>
+<header>🔒 Portal oficial de verificación · Día Seguro SURA</header>
 
-<input id="busqueda" placeholder="Buscar por número o nombre">
-<button onclick="consultar()">Consultar</button>
+<div class="container">
+  <h2>Consulta de pólizas</h2>
+  <input id="buscar" placeholder="Número de póliza">
+  <button onclick="consultar()">Consultar</button>
+  <div id="resultado" class="resultado" style="display:none"></div>
+</div>
 
-<table>
-<thead>
-<tr>
-<th>Póliza</th>
-<th>Nombre</th>
-<th>Vehículo</th>
-<th>Año</th>
-<th>Vigencia</th>
-</tr>
-</thead>
-<tbody id="resultado"></tbody>
-</table>
+<footer>
+Sistema privado de verificación<br>
+Área de ventas y soporte<br>
+© Día Seguro SURA
+</footer>
 
-<!-- MODAL ADMIN -->
-<div class="modal" id="modalAdmin">
-  <div class="modal-content">
-    <h2>Administración de Pólizas</h2>
+<!-- ===== LOGIN ADMIN ===== -->
+<div id="loginBG" class="modal-bg">
+  <div class="modal">
+    <h3>Acceso administrativo</h3>
+    <input type="password" id="adminPass" placeholder="Contraseña">
+    <button onclick="login()">Entrar</button>
+    <button class="close" onclick="cerrarLogin()">Cancelar</button>
+  </div>
+</div>
 
-    <input id="a_poliza" placeholder="Número de póliza">
-    <input id="a_nombre" placeholder="Nombre">
-    <input id="a_vehiculo" placeholder="Vehículo">
+<!-- ===== PANEL ADMIN ===== -->
+<div id="adminBG" class="modal-bg">
+  <div class="modal">
+    <h3>Panel administrativo</h3>
+
+    <input id="a_numero" placeholder="Número de póliza">
+    <input id="a_nombre" placeholder="Nombre del conductor">
+    <input id="a_marca" placeholder="Marca">
+    <input id="a_modelo" placeholder="Modelo">
     <input id="a_anio" placeholder="Año">
-    <input id="a_vigencia" placeholder="Vigencia">
+    <input id="a_color" placeholder="Color">
 
-    <br>
-    <button class="admin" onclick="guardarPoliza()">Guardar</button>
-    <button onclick="cerrarAdmin()">Cerrar</button>
+    <select id="a_estatus">
+      <option>🟡 EN PROCESO DE VENTA</option>
+      <option>🟢 ACTIVA</option>
+      <option>🔴 CANCELADA</option>
+    </select>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Póliza</th>
-          <th>Nombre</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody id="listaAdmin"></tbody>
-    </table>
+    <select id="a_plan">
+      <option>Plus</option>
+      <option>Básico</option>
+    </select>
+
+    <select id="a_vigencia">
+      <option>ANUAL</option>
+      <option>3 MESES</option>
+    </select>
+
+    <button onclick="guardar()">Guardar / Actualizar</button>
+    <button class="close" onclick="cerrarAdmin()">Cerrar</button>
   </div>
 </div>
 
 <script>
-let editIndex = null;
+const ADMIN_PASS="moreno476";
+const POLIZA_PROTEGIDA="0332";
 
-function obtenerPolizas() {
-  return JSON.parse(localStorage.getItem("polizas")) || [
-    { poliza: "0332", nombre: "Póliza Base", vehiculo: "-", anio: "-", vigencia: "Indefinida" },
-    { poliza: "0360", nombre: "Póliza Base", vehiculo: "-", anio: "-", vigencia: "Indefinida" }
-  ];
+function getDB(){
+  return JSON.parse(localStorage.getItem("polizas")||"{}");
+}
+function setDB(db){
+  localStorage.setItem("polizas",JSON.stringify(db));
 }
 
-function guardarLocal(polizas) {
-  localStorage.setItem("polizas", JSON.stringify(polizas));
-}
+/* ===== CONSULTA ===== */
+function consultar(){
+  const n=document.getElementById("buscar").value.trim();
+  const r=document.getElementById("resultado");
+  const db=getDB();
+  r.style.display="block";
 
-function consultar() {
-  const q = busqueda.value.toLowerCase();
-  const polizas = obtenerPolizas();
-  resultado.innerHTML = "";
-
-  polizas.filter(p =>
-    p.poliza.includes(q) || p.nombre.toLowerCase().includes(q)
-  ).forEach(p => {
-    resultado.innerHTML += `
-      <tr>
-        <td>${p.poliza}</td>
-        <td>${p.nombre}</td>
-        <td>${p.vehiculo}</td>
-        <td>${p.anio}</td>
-        <td>${p.vigencia}</td>
-      </tr>`;
-  });
-}
-
-function abrirAdmin() {
-  modalAdmin.style.display = "block";
-  cargarAdmin();
-}
-
-function cerrarAdmin() {
-  modalAdmin.style.display = "none";
-  limpiarFormulario();
-}
-
-function cargarAdmin() {
-  const polizas = obtenerPolizas();
-  listaAdmin.innerHTML = "";
-
-  polizas.forEach((p, i) => {
-    const protegida = p.poliza === "0332" || p.poliza === "0360";
-    listaAdmin.innerHTML += `
-      <tr class="${protegida ? 'protegida' : ''}">
-        <td>${p.poliza}</td>
-        <td>${p.nombre}</td>
-        <td>
-          ${protegida ? 'Protegida' : `
-          <button onclick="editarPoliza(${i})">✏️</button>
-          <button onclick="eliminarPoliza(${i})">🗑️</button>`}
-        </td>
-      </tr>`;
-  });
-}
-
-function guardarPoliza() {
-  const polizas = obtenerPolizas();
-  const nueva = {
-    poliza: a_poliza.value,
-    nombre: a_nombre.value,
-    vehiculo: a_vehiculo.value,
-    anio: a_anio.value,
-    vigencia: a_vigencia.value
-  };
-
-  if (editIndex !== null) {
-    polizas[editIndex] = nueva;
-    editIndex = null;
-  } else {
-    polizas.push(nueva);
+  if(n===POLIZA_PROTEGIDA){
+    r.innerHTML=`
+    <b>Póliza 0332</b><br>
+    Conductor: ALIN MONSERRAT SUASTEGUI MENDOZA<br>
+    Marca: Chevrolet<br>
+    Modelo: Spark<br>
+    Año: 2017<br>
+    Plan: Plus<br>
+    Vigencia: ANUAL<br>
+    Estatus: 🟢 ACTIVA`;
+    return;
   }
 
-  guardarLocal(polizas);
-  limpiarFormulario();
-  cargarAdmin();
+  if(!db[n]){
+    r.innerHTML="🟡 Póliza en proceso de venta o registro";
+    return;
+  }
+
+  const p=db[n];
+  r.innerHTML=`
+  <b>Póliza ${n}</b><br>
+  Conductor: ${p.nombre}<br>
+  Vehículo: ${p.marca} ${p.modelo}<br>
+  Año: ${p.anio}<br>
+  Color: ${p.color}<br>
+  Plan: ${p.plan}<br>
+  Vigencia: ${p.vigencia}<br>
+  Estatus: ${p.estatus}`;
 }
 
-function editarPoliza(i) {
-  const p = obtenerPolizas()[i];
-  editIndex = i;
-
-  a_poliza.value = p.poliza;
-  a_nombre.value = p.nombre;
-  a_vehiculo.value = p.vehiculo;
-  a_anio.value = p.anio;
-  a_vigencia.value = p.vigencia;
-}
-
-function eliminarPoliza(i) {
-  const polizas = obtenerPolizas();
-  polizas.splice(i, 1);
-  guardarLocal(polizas);
-  cargarAdmin();
-}
-
-function limpiarFormulario() {
-  editIndex = null;
-  a_poliza.value = "";
-  a_nombre.value = "";
-  a_vehiculo.value = "";
-  a_anio.value = "";
-  a_vigencia.value = "";
-}
-
-document.addEventListener("keydown", e => {
-  if (e.ctrlKey && e.key.toLowerCase() === "d") {
-    const pass = prompt("Contraseña administrativa:");
-    if (pass === "moreno476") abrirAdmin();
-    else alert("Contraseña incorrecta");
+/* ===== ADMIN ===== */
+document.addEventListener("keydown",e=>{
+  if(e.ctrlKey && e.key.toLowerCase()==="d"){
+    e.preventDefault();
+    document.getElementById("loginBG").style.display="block";
   }
 });
+
+function login(){
+  if(adminPass.value===ADMIN_PASS){
+    document.getElementById("loginBG").style.display="none";
+    document.getElementById("adminBG").style.display="block";
+  } else alert("Contraseña incorrecta");
+}
+function cerrarLogin(){
+  document.getElementById("loginBG").style.display="none";
+}
+function cerrarAdmin(){
+  document.getElementById("adminBG").style.display="none";
+}
+
+/* ===== AUTOCARGA PARA EDITAR ===== */
+document.getElementById("a_numero").addEventListener("input",()=>{
+  const n=a_numero.value.trim();
+  const db=getDB();
+  if(db[n]){
+    const p=db[n];
+    a_nombre.value=p.nombre;
+    a_marca.value=p.marca;
+    a_modelo.value=p.modelo;
+    a_anio.value=p.anio;
+    a_color.value=p.color;
+    a_estatus.value=p.estatus;
+    a_plan.value=p.plan;
+    a_vigencia.value=p.vigencia;
+  }
+});
+
+/* ===== GUARDAR ===== */
+function guardar(){
+  const n=a_numero.value.trim();
+  if(n===POLIZA_PROTEGIDA){
+    alert("La póliza 0332 está protegida");
+    return;
+  }
+  const db=getDB();
+  db[n]={
+    nombre:a_nombre.value,
+    marca:a_marca.value,
+    modelo:a_modelo.value,
+    anio:a_anio.value,
+    color:a_color.value,
+    estatus:a_estatus.value,
+    plan:a_plan.value,
+    vigencia:a_vigencia.value
+  };
+  setDB(db);
+  alert("Póliza guardada / actualizada correctamente");
+}
 </script>
 
 </body>
