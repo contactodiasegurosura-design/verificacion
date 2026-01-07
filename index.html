@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -73,7 +73,7 @@ background:#eef3fb;
 © Día Seguro SURA
 </footer>
 
-<!-- LOGIN -->
+<!-- LOGIN ADMIN -->
 <div id="loginBG" class="modal-bg">
 <div class="modal">
 <h3>Acceso administrativo</h3>
@@ -83,11 +83,11 @@ background:#eef3fb;
 </div>
 </div>
 
-<!-- ADMIN -->
+<!-- PANEL ADMIN -->
 <div id="adminBG" class="modal-bg">
 <div class="modal">
 <h3>Panel administrativo</h3>
-<small>Edición y control de pólizas (0332 protegida)</small>
+<small>Gestión de pólizas (0332 protegida)</small>
 
 <div class="row"><input id="a_numero" placeholder="Número de póliza"></div>
 <div class="row"><input id="a_nombre" placeholder="Nombre del conductor"></div>
@@ -115,7 +115,6 @@ background:#eef3fb;
 
 <button onclick="guardarPoliza()">Guardar póliza</button>
 
-<!-- ===== AÑADIDO: LISTADO DE PÓLIZAS ===== -->
 <div class="lista-polizas" id="listaPolizas"></div>
 
 <button class="close" onclick="cerrarAdmin()">Cerrar</button>
@@ -123,42 +122,48 @@ background:#eef3fb;
 </div>
 
 <script>
-const ADMIN_PASS="moreno476";
+const ADMIN_PASS = "moreno476";
 
-const POLIZA_0332={
-numero:"0332",
-nombre:"ALIN MONSERRAT SUASTEGUI MENDOZA",
-estatus:"🟡 ACTIVA",
-plan:"Plus",
-vigencia:"ANUAL",
-marca:"Chevrolet",
-modelo:"Spark",
-año:"2017",
-color:"No especificado"
-};
+/* ===== POLIZAS VISIBLES PARA TODOS LOS CLIENTES ===== */
+const POLIZAS_PUBLICAS = [
+  {
+    numero:"0332",
+    nombre:"ALIN MONSERRAT SUASTEGUI MENDOZA",
+    estatus:"🟡 ACTIVA",
+    plan:"Plus",
+    vigencia:"ANUAL",
+    marca:"Chevrolet",
+    modelo:"Spark",
+    año:"2017",
+    color:"No especificado"
+  }
+];
 
+/* ===== INICIALIZAR LOCAL ===== */
 function init(){
-let p=JSON.parse(localStorage.getItem("polizas"));
-if(!Array.isArray(p)){
-localStorage.setItem("polizas",JSON.stringify([POLIZA_0332]));
-}else{
-if(!p.find(x=>x.numero==="0332")){
-p.push(POLIZA_0332);
-localStorage.setItem("polizas",JSON.stringify(p));
-}
-}
+  if(!localStorage.getItem("polizas")){
+    localStorage.setItem("polizas", JSON.stringify([]));
+  }
 }
 init();
 
+/* ===== CONSULTA CLIENTE ===== */
 function verificar(){
-  let q = document.getElementById("busqueda").value.trim().toLowerCase();
-  let r = document.getElementById("resultado");
-  let ps = JSON.parse(localStorage.getItem("polizas")) || [];
+  const q = document.getElementById("busqueda").value.trim().toLowerCase();
+  const r = document.getElementById("resultado");
 
-  let p = ps.find(x =>
-    x.numero.toLowerCase().includes(q) ||
-    (x.nombre && x.nombre.toLowerCase().includes(q))
+  let p = POLIZAS_PUBLICAS.find(x =>
+    x.numero.toLowerCase() === q ||
+    x.nombre.toLowerCase().includes(q)
   );
+
+  if(!p){
+    const ps = JSON.parse(localStorage.getItem("polizas")) || [];
+    p = ps.find(x =>
+      x.numero.toLowerCase() === q ||
+      (x.nombre && x.nombre.toLowerCase().includes(q))
+    );
+  }
 
   if(p){
     r.innerHTML = `
@@ -166,82 +171,88 @@ function verificar(){
       <b>${p.nombre}</b><br>
       Número: ${p.numero}<br>
       ${p.estatus}<br>
-      ${p.marca} ${p.modelo} ${p.año}<br>
+      Vehículo: ${p.marca} ${p.modelo} ${p.año}<br>
       Plan: ${p.plan}<br>
       Vigencia: ${p.vigencia}
     </div>`;
-  } else {
-    r.innerHTML = `<div class="detalles">No se encontró la póliza</div>`;
+  }else{
+    r.innerHTML = `<div class="detalles">🟡 Póliza en proceso o no registrada</div>`;
   }
-  }
-
-document.addEventListener("keydown",e=>{
-if(e.ctrlKey&&e.key.toLowerCase()==="d"){
-e.preventDefault();
-loginBG.style.display="block";
 }
+
+/* ===== ADMIN ===== */
+document.addEventListener("keydown",e=>{
+  if(e.ctrlKey && e.key.toLowerCase()==="d"){
+    e.preventDefault();
+    loginBG.style.display="block";
+  }
 });
 
-function cerrarLogin(){loginBG.style.display="none";}
+function cerrarLogin(){ loginBG.style.display="none"; }
+function cerrarAdmin(){ adminBG.style.display="none"; }
+
 function loginAdmin(){
-if(adminPass.value===ADMIN_PASS){
-cerrarLogin();
-adminBG.style.display="block";
-cargarLista();
+  if(adminPass.value===ADMIN_PASS){
+    cerrarLogin();
+    adminBG.style.display="block";
+    cargarLista();
+  }else{
+    alert("Contraseña incorrecta");
+  }
 }
-}
-function cerrarAdmin(){adminBG.style.display="none";}
 
 function guardarPoliza(){
-let n=a_numero.value.trim();
-if(n==="0332"){alert("0332 protegida");return;}
-let ps=JSON.parse(localStorage.getItem("polizas"))||[];
-let i=ps.findIndex(p=>p.numero===n);
-let o={
-numero:n,
-nombre:a_nombre.value,
-marca:a_marca.value,
-modelo:a_modelo.value,
-año:a_año.value,
-color:a_color.value,
-estatus:a_estatus.value,
-plan:a_plan.value,
-vigencia:a_vigencia.value
-};
-if(i>=0)ps[i]=o;else ps.push(o);
-localStorage.setItem("polizas",JSON.stringify(ps));
-cargarLista();
-alert("Póliza guardada correctamente");
+  const n = a_numero.value.trim();
+  if(n==="0332"){ alert("0332 protegida"); return; }
+
+  const ps = JSON.parse(localStorage.getItem("polizas")) || [];
+  const i = ps.findIndex(p=>p.numero===n);
+
+  const o = {
+    numero:n,
+    nombre:a_nombre.value,
+    marca:a_marca.value,
+    modelo:a_modelo.value,
+    año:a_año.value,
+    color:a_color.value,
+    estatus:a_estatus.value,
+    plan:a_plan.value,
+    vigencia:a_vigencia.value
+  };
+
+  if(i>=0) ps[i]=o; else ps.push(o);
+  localStorage.setItem("polizas", JSON.stringify(ps));
+  cargarLista();
+  alert("Póliza guardada correctamente");
 }
 
-/* ===== AÑADIDO: LISTAR Y EDITAR ===== */
 function cargarLista(){
-let cont=document.getElementById("listaPolizas");
-let ps=JSON.parse(localStorage.getItem("polizas"))||[];
-cont.innerHTML="";
-ps.forEach(p=>{
-let d=document.createElement("div");
-d.textContent=p.numero+" - "+p.nombre;
-d.onclick=()=>cargarPoliza(p.numero);
-cont.appendChild(d);
-});
+  const cont=document.getElementById("listaPolizas");
+  const ps=JSON.parse(localStorage.getItem("polizas"))||[];
+  cont.innerHTML="";
+  ps.forEach(p=>{
+    const d=document.createElement("div");
+    d.textContent=p.numero+" - "+p.nombre;
+    d.onclick=()=>cargarPoliza(p.numero);
+    cont.appendChild(d);
+  });
 }
 
 function cargarPoliza(n){
-if(n==="0332"){alert("0332 protegida");return;}
-let p=(JSON.parse(localStorage.getItem("polizas"))||[]).find(x=>x.numero===n);
-if(!p)return;
-a_numero.value=p.numero;
-a_nombre.value=p.nombre;
-a_marca.value=p.marca;
-a_modelo.value=p.modelo;
-a_año.value=p.año;
-a_color.value=p.color;
-a_estatus.value=p.estatus;
-a_plan.value=p.plan;
-a_vigencia.value=p.vigencia;
+  const ps=JSON.parse(localStorage.getItem("polizas"))||[];
+  const p=ps.find(x=>x.numero===n);
+  if(!p) return;
+  a_numero.value=p.numero;
+  a_nombre.value=p.nombre;
+  a_marca.value=p.marca;
+  a_modelo.value=p.modelo;
+  a_año.value=p.año;
+  a_color.value=p.color;
+  a_estatus.value=p.estatus;
+  a_plan.value=p.plan;
+  a_vigencia.value=p.vigencia;
 }
 </script>
 
 </body>
-                   </html>
+  </html>
