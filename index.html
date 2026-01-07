@@ -151,21 +151,29 @@ localStorage.setItem("polizas",JSON.stringify(p));
 init();
 
 function verificar(){
-let q=document.getElementById("busqueda").value.toLowerCase();
-let r=document.getElementById("resultado");
-let p=(JSON.parse(localStorage.getItem("polizas"))||[]).find(
-x=>x.numero===q||x.nombre.toLowerCase().includes(q)
-);
-if(p){
-r.innerHTML=`<div class="detalles">
-<b>${p.nombre}</b><br>
-${p.estatus}<br>
-${p.marca} ${p.modelo} ${p.año}
-</div>`;
-}else{
-r.innerHTML=`<div class="detalles">Póliza en proceso</div>`;
-}
-}
+  let q = document.getElementById("busqueda").value.trim().toLowerCase();
+  let r = document.getElementById("resultado");
+  let ps = JSON.parse(localStorage.getItem("polizas")) || [];
+
+  let p = ps.find(x =>
+    x.numero.toLowerCase().includes(q) ||
+    (x.nombre && x.nombre.toLowerCase().includes(q))
+  );
+
+  if(p){
+    r.innerHTML = `
+    <div class="detalles">
+      <b>${p.nombre}</b><br>
+      Número: ${p.numero}<br>
+      ${p.estatus}<br>
+      ${p.marca} ${p.modelo} ${p.año}<br>
+      Plan: ${p.plan}<br>
+      Vigencia: ${p.vigencia}
+    </div>`;
+  } else {
+    r.innerHTML = `<div class="detalles">No se encontró la póliza</div>`;
+  }
+  }
 
 document.addEventListener("keydown",e=>{
 if(e.ctrlKey&&e.key.toLowerCase()==="d"){
