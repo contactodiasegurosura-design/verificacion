@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -12,33 +12,16 @@ header{background:linear-gradient(90deg,#002b5c,#007bff);color:#fff;padding:15px
 .card{background:#fff;max-width:420px;margin:30px auto;padding:25px;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,.1)}
 input,select{width:80%;padding:10px;text-align:center;border-radius:6px;border:1px solid #ccc;margin:6px 0}
 button{margin-top:10px;padding:10px 30px;background:#ff6600;color:#fff;border:none;border-radius:6px;cursor:pointer}
-.detalles{margin-top:10px;background:#eef3fb;padding:10px;border-radius:8px;font-size:.9em}
-.reseñas{max-width:420px;margin:15px auto;font-size:.9em;color:#444}
+.detalles{margin-top:10px;background:#eef3fb;padding:10px;border-radius:8px;font-size:.9em;text-align:left}
+.reseñas{max-width:420px;margin:20px auto;font-size:.9em;color:#444}
 footer{margin:30px 10px;font-size:.75em;color:#666}
 
 .modal-bg{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:1000}
 .modal{background:#fff;width:90%;max-width:420px;margin:60px auto;padding:20px;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.25)}
-.modal h3{margin-top:0}
-.modal small{color:#666}
-.modal .row{margin:6px 0}
+.lista-polizas{max-height:120px;overflow:auto;border:1px solid #ccc;border-radius:6px;font-size:.85em;margin-top:10px}
+.lista-polizas div{padding:6px;cursor:pointer;border-bottom:1px solid #eee}
+.lista-polizas div:hover{background:#eef3fb}
 .close{background:#ccc;color:#000}
-
-.lista-polizas{
-margin-top:10px;
-max-height:120px;
-overflow:auto;
-border:1px solid #ccc;
-border-radius:6px;
-font-size:.85em;
-}
-.lista-polizas div{
-padding:6px;
-cursor:pointer;
-border-bottom:1px solid #eee;
-}
-.lista-polizas div:hover{
-background:#eef3fb;
-}
 </style>
 </head>
 
@@ -55,9 +38,8 @@ background:#eef3fb;
 
 <div class="card">
 <input id="busqueda" placeholder="Número o nombre de póliza">
-<br>
 <button onclick="verificar()">Consultar póliza</button>
-<div id="resultado" style="margin-top:15px;font-weight:bold;"></div>
+<div id="resultado"></div>
 </div>
 
 <div class="reseñas">
@@ -79,7 +61,7 @@ background:#eef3fb;
 <h3>Acceso administrativo</h3>
 <input id="adminPass" type="password" placeholder="Contraseña">
 <button onclick="loginAdmin()">Entrar</button>
-<button class="close" onclick="cerrarLogin()">Cancelar</button>
+<button class="close" onclick="loginBG.style.display='none'">Cancelar</button>
 </div>
 </div>
 
@@ -87,19 +69,17 @@ background:#eef3fb;
 <div id="adminBG" class="modal-bg">
 <div class="modal">
 <h3>Panel administrativo</h3>
-<small>Gestión de pólizas (0332 protegida)</small>
 
-<div class="row"><input id="a_numero" placeholder="Número de póliza"></div>
-<div class="row"><input id="a_nombre" placeholder="Nombre del conductor"></div>
-<div class="row"><input id="a_marca" placeholder="Marca"></div>
-<div class="row"><input id="a_modelo" placeholder="Modelo"></div>
-<div class="row"><input id="a_año" placeholder="Año"></div>
-<div class="row"><input id="a_color" placeholder="Color"></div>
+<input id="a_numero" placeholder="Número de póliza">
+<input id="a_nombre" placeholder="Nombre">
+<input id="a_marca" placeholder="Marca">
+<input id="a_modelo" placeholder="Modelo">
+<input id="a_año" placeholder="Año">
+<input id="a_color" placeholder="Color">
 
 <select id="a_estatus">
-<option>🟡 EN PROCESO DE VENTA</option>
-<option>🟡 EN PROCESO DE PAGO</option>
-<option>🟡 ACTIVA</option>
+<option>🟡 EN PROCESO</option>
+<option>🟢 ACTIVA</option>
 <option>🔴 CANCELADA</option>
 </select>
 
@@ -110,149 +90,99 @@ background:#eef3fb;
 
 <select id="a_vigencia">
 <option>ANUAL</option>
-<option>3 meses</option>
+<option>3 MESES</option>
 </select>
 
-<button onclick="guardarPoliza()">Guardar póliza</button>
+<button onclick="guardarPoliza()">Guardar / Actualizar</button>
 
 <div class="lista-polizas" id="listaPolizas"></div>
 
-<button class="close" onclick="cerrarAdmin()">Cerrar</button>
+<button class="close" onclick="adminBG.style.display='none'">Cerrar</button>
 </div>
 </div>
 
 <script>
-const ADMIN_PASS = "moreno476";
+const ADMIN_PASS="moreno476";
 
-/* ===== POLIZAS VISIBLES PARA TODOS LOS CLIENTES ===== */
-const POLIZAS_PUBLICAS = [
-  {
-    numero:"0332",
-    nombre:"ALIN MONSERRAT SUASTEGUI MENDOZA",
-    estatus:"🟡 ACTIVA",
-    plan:"Plus",
-    vigencia:"ANUAL",
-    marca:"Chevrolet",
-    modelo:"Spark",
-    año:"2017",
-    color:"No especificado"
-  }
-];
+/* ===== POLIZA FIJA 0332 (NO SE TOCA) ===== */
+const POLIZA_0332={
+numero:"0332",
+nombre:"ALIN MONSERRAT SUASTEGUI MENDOZA",
+marca:"Chevrolet",
+modelo:"Spark",
+año:"2017",
+color:"No especificado",
+estatus:"🟢 ACTIVA",
+plan:"Plus",
+vigencia:"ANUAL"
+};
 
-/* ===== INICIALIZAR LOCAL ===== */
+/* ===== INICIALIZAR BASE ===== */
 function init(){
-  if(!localStorage.getItem("polizas")){
-    localStorage.setItem("polizas", JSON.stringify([]));
-  }
+let p=JSON.parse(localStorage.getItem("polizas"));
+if(!Array.isArray(p)){
+p=[POLIZA_0332];
+for(let i=1;i<=100;i++){
+let n=i.toString().padStart(3,"0");
+if(n!=="0332"){
+p.push({numero:n,nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""});
+}
+}
+localStorage.setItem("polizas",JSON.stringify(p));
+}
 }
 init();
 
 /* ===== CONSULTA CLIENTE ===== */
 function verificar(){
-  const q = document.getElementById("busqueda").value.trim().toLowerCase();
-  const r = document.getElementById("resultado");
-
-  let p = POLIZAS_PUBLICAS.find(x =>
-    x.numero.toLowerCase() === q ||
-    x.nombre.toLowerCase().includes(q)
-  );
-
-  if(!p){
-    const ps = JSON.parse(localStorage.getItem("polizas")) || [];
-    p = ps.find(x =>
-      x.numero.toLowerCase() === q ||
-      (x.nombre && x.nombre.toLowerCase().includes(q))
-    );
-  }
-
-  if(p){
-    r.innerHTML = `
-    <div class="detalles">
-      <b>${p.nombre}</b><br>
-      Número: ${p.numero}<br>
-      ${p.estatus}<br>
-      Vehículo: ${p.marca} ${p.modelo} ${p.año}<br>
-      Plan: ${p.plan}<br>
-      Vigencia: ${p.vigencia}
-    </div>`;
-  }else{
-    r.innerHTML = `<div class="detalles">🟡 Póliza en proceso o no registrada</div>`;
-  }
+let q=busqueda.value.trim().toLowerCase();
+let ps=JSON.parse(localStorage.getItem("polizas"))||[];
+let p=ps.find(x=>x.numero===q||x.nombre.toLowerCase().includes(q));
+resultado.innerHTML=p?`
+<div class="detalles">
+<b>${p.nombre||"—"}</b><br>
+Número: ${p.numero}<br>
+Estatus: ${p.estatus}<br>
+Vehículo: ${p.marca} ${p.modelo} ${p.año}<br>
+Plan: ${p.plan}<br>
+Vigencia: ${p.vigencia}
+</div>`:`<div class="detalles">🟡 Póliza en proceso de registro</div>`;
 }
 
 /* ===== ADMIN ===== */
 document.addEventListener("keydown",e=>{
-  if(e.ctrlKey && e.key.toLowerCase()==="d"){
-    e.preventDefault();
-    loginBG.style.display="block";
-  }
+if(e.ctrlKey&&e.key.toLowerCase()==="d"){loginBG.style.display="block";}
 });
 
-function cerrarLogin(){ loginBG.style.display="none"; }
-function cerrarAdmin(){ adminBG.style.display="none"; }
-
 function loginAdmin(){
-  if(adminPass.value===ADMIN_PASS){
-    cerrarLogin();
-    adminBG.style.display="block";
-    cargarLista();
-  }else{
-    alert("Contraseña incorrecta");
-  }
+if(adminPass.value===ADMIN_PASS){
+loginBG.style.display="none";
+adminBG.style.display="block";
+cargarLista();
+}
 }
 
 function guardarPoliza(){
-  const n = a_numero.value.trim();
-  if(n==="0332"){ alert("0332 protegida"); return; }
-
-  const ps = JSON.parse(localStorage.getItem("polizas")) || [];
-  const i = ps.findIndex(p=>p.numero===n);
-
-  const o = {
-    numero:n,
-    nombre:a_nombre.value,
-    marca:a_marca.value,
-    modelo:a_modelo.value,
-    año:a_año.value,
-    color:a_color.value,
-    estatus:a_estatus.value,
-    plan:a_plan.value,
-    vigencia:a_vigencia.value
-  };
-
-  if(i>=0) ps[i]=o; else ps.push(o);
-  localStorage.setItem("polizas", JSON.stringify(ps));
-  cargarLista();
-  alert("Póliza guardada correctamente");
+if(a_numero.value==="0332"){alert("0332 protegida");return;}
+let ps=JSON.parse(localStorage.getItem("polizas"));
+let i=ps.findIndex(p=>p.numero===a_numero.value);
+ps[i]={numero:a_numero.value,nombre:a_nombre.value,marca:a_marca.value,modelo:a_modelo.value,año:a_año.value,color:a_color.value,estatus:a_estatus.value,plan:a_plan.value,vigencia:a_vigencia.value};
+localStorage.setItem("polizas",JSON.stringify(ps));
+cargarLista();
+alert("Póliza guardada");
 }
 
 function cargarLista(){
-  const cont=document.getElementById("listaPolizas");
-  const ps=JSON.parse(localStorage.getItem("polizas"))||[];
-  cont.innerHTML="";
-  ps.forEach(p=>{
-    const d=document.createElement("div");
-    d.textContent=p.numero+" - "+p.nombre;
-    d.onclick=()=>cargarPoliza(p.numero);
-    cont.appendChild(d);
-  });
-}
-
-function cargarPoliza(n){
-  const ps=JSON.parse(localStorage.getItem("polizas"))||[];
-  const p=ps.find(x=>x.numero===n);
-  if(!p) return;
-  a_numero.value=p.numero;
-  a_nombre.value=p.nombre;
-  a_marca.value=p.marca;
-  a_modelo.value=p.modelo;
-  a_año.value=p.año;
-  a_color.value=p.color;
-  a_estatus.value=p.estatus;
-  a_plan.value=p.plan;
-  a_vigencia.value=p.vigencia;
+let ps=JSON.parse(localStorage.getItem("polizas"));
+listaPolizas.innerHTML="";
+ps.forEach(p=>{
+let d=document.createElement("div");
+d.textContent=p.numero+" - "+p.nombre;
+d.onclick=()=>{if(p.numero!=="0332"){Object.keys(p).forEach(k=>document.getElementById("a_"+k)?.value=p[k]);}};
+listaPolizas.appendChild(d);
+});
 }
 </script>
 
 </body>
-  </html>
+ </html>
