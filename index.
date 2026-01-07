@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal oficial de verificación | Día Seguro SURA</title>
+
+<style>
+body{margin:0;font-family:Segoe UI,Tahoma,sans-serif;background:#f4f7fb;text-align:center;color:#1a2a45}
+header{background:linear-gradient(90deg,#002b5c,#007bff);color:#fff;padding:15px;font-weight:bold}
+.logo img{width:180px;margin:25px 0}
+.card{background:#fff;max-width:420px;margin:30px auto;padding:25px;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,.1)}
+input{width:80%;padding:10px;text-align:center;border-radius:6px;border:1px solid #ccc}
+button{margin-top:10px;padding:10px 30px;background:#ff6600;color:#fff;border:none;border-radius:6px;cursor:pointer}
+.detalles{margin-top:15px;background:#eef3fb;padding:12px;border-radius:8px;text-align:left;font-size:.9em}
+.reseñas{max-width:420px;margin:15px auto;font-size:.9em;color:#444}
+footer{margin:30px 10px;font-size:.75em;color:#666}
+</style>
+</head>
+
+<body>
+
+<header>🔒 Portal oficial de verificación Día Seguro SURA</header>
+
+<div class="logo">
+<img src="https://raw.githubusercontent.com/contactodiasegurosura-design/verificacion/b86f602d58b3e7f44656958b372d71edb83ffce3/logo-sura.png.jpg">
+</div>
+
+<h2>Día Seguro SURA</h2>
+<p>Consulta y verificación de pólizas</p>
+
+<div class="card">
+<input id="busqueda" placeholder="Número de póliza">
+<br>
+<button onclick="verificar()">Consultar póliza</button>
+<div id="resultado"></div>
+</div>
+
+<div class="reseñas">
+⭐⭐⭐⭐⭐<br>
+<b>Clientes verificados</b><br>
+“Sistema confiable y claro.”<br>
+“Mi póliza apareció sin problemas.”<br>
+“Atención rápida y profesional.”
+</div>
+
+<footer>
+🔒 Consulta segura · Información protegida<br>
+© Día Seguro SURA
+</footer>
+
+<script>
+const POLIZAS = [
+
+/* 🔒 PÓLIZA CONSERVADA */
+{
+numero:"0332",
+nombre:"ALIN MONSERRAT SUASTEGUI MENDOZA",
+marca:"Chevrolet",
+modelo:"Spark",
+año:"2017",
+color:"Gris",
+estatus:"🟢 ACTIVA",
+plan:"Plus",
+vigencia:"ANUAL"
+},
+
+/* ✏️ 100 PÓLIZAS EDITABLES */
+{numero:"001",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"002",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"003",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"004",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"005",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+
+{numero:"006",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"007",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"008",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"009",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"010",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+
+{numero:"011",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"012",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"013",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"014",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"015",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+
+{numero:"016",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"017",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"018",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"019",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"020",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+
+{numero:"021",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"022",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"023",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"024",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"025",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+
+{numero:"026",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"027",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"028",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"029",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"030",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+
+{numero:"031",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"032",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"033",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"034",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"035",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+
+{numero:"036",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"037",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"038",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"039",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"040",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+
+{numero:"041",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"042",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"043",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"044",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"045",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+
+{numero:"046",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"047",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"048",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"049",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"050",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+
+/* del 051 al 100 igual, listos para editar */
+{numero:"051",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"052",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"053",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"054",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"055",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+
+{numero:"056",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"057",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"058",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"059",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"060",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+
+{numero:"061",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"062",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"063",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"064",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"065",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+
+{numero:"066",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"067",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"068",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"069",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"070",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+
+{numero:"071",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"072",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"073",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"074",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"075",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+
+{numero:"076",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"077",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"078",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"079",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"080",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+
+{numero:"081",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"082",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"083",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"084",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"085",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+
+{numero:"086",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"087",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"088",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"089",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"090",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+
+{numero:"091",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"092",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"093",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"094",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"095",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+
+{numero:"096",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"097",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"098",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"099",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""},
+{numero:"100",nombre:"",marca:"",modelo:"",año:"",color:"",estatus:"🟡 EN PROCESO",plan:"",vigencia:""}
+
+];
+
+function verificar(){
+  const q=document.getElementById("busqueda").value.trim();
+  const r=document.getElementById("resultado");
+  const p=POLIZAS.find(x=>x.numero===q);
+
+  if(!p){
+    r.innerHTML="<div class='detalles'>❌ Póliza no registrada</div>";
+    return;
+  }
+
+  r.innerHTML=`
+  <div class="detalles">
+    <b>Número:</b> ${p.numero}<br>
+    <b>Nombre:</b> ${p.nombre||"—"}<br>
+    <b>Marca:</b> ${p.marca||"—"}<br>
+    <b>Modelo:</b> ${p.modelo||"—"}<br>
+    <b>Año:</b> ${p.año||"—"}<br>
+    <b>Color:</b> ${p.color||"—"}<br>
+    <b>Estatus:</b> ${p.estatus}<br>
+    <b>Plan:</b> ${p.plan||"—"}<br>
+    <b>Vigencia:</b> ${p.vigencia||"—"}
+  </div>`;
+}
+</script>
+
+</body>
+</html>
